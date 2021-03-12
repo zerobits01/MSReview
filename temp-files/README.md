@@ -5,7 +5,7 @@
 ### merging: 26th
 
 ## steps:
-[*] what is landing page?
-[] designing landing page
-[] implementing landing page with HTML, CSS
-[] PR and merging 
+- [x] what is landing page?
+- [ ] designing landing page
+- [ ] implementing landing page with HTML, CSS
+- [ ] PR and merging 
