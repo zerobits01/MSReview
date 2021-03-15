@@ -1,2 +1,0 @@
-this dir is for designing static templates outside of react project
-
