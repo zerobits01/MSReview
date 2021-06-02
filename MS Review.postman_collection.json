@@ -1,0 +1,112 @@
+{
+	"variables": [],
+	"info": {
+		"name": "MS Review",
+		"_postman_id": "52b65c51-835b-abff-0965-0ad1718e7b3c",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create new user",
+			"request": {
+				"url": "http://127.0.0.1:8000/user/profile/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"test@test.com\",\n\t\"name\": \"test\",\n\t\"password\": \"password\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get all users",
+			"request": {
+				"url": "http://127.0.0.1:8000/user/profile",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"mamad\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "patch user with id 2",
+			"request": {
+				"url": "http://127.0.0.1:8000/user/profile/9/",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Token",
+						"value": "d9a0a08f3a36363fc4937cd7b1e1672b79b70c98",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"test-again\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "login test",
+			"request": {
+				"url": "127.0.0.1:8000/user/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"test@test.com\",\n\t\"password\": \"password\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get movies",
+			"request": {
+				"url": "http://127.0.0.1:8000/movie/retrieve/1/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getting sample image",
+			"request": {
+				"url": "http://127.0.0.1:8000/media/images/Screenshot_20210528_110448.png",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
