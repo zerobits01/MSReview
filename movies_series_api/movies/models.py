@@ -43,7 +43,7 @@ class MoviesSeries(models.Model):
     ]
 
     title = models.CharField(max_length=255, unique=True)
-    desciption = models.TextField()
+    description = models.TextField()
     created = models.DateField(auto_now_add=True)
     ms_type = models.CharField(
         max_length=1,
