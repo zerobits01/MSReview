@@ -31,6 +31,21 @@ class CriticViewSet(viewsets.ModelViewSet):
         return context
 
 
+    def retrieve(self, request, pk=None):
+        # we can use the pk to get something from model
+        critic = self.queryset.get(pk=pk)
+        user = {'id': critic.user.id, 'name': critic.user.name}
+        movie = critic.movie.__dict__
+
+        # retrieving data from critic needs the _state so before deleting the data we have to retrieve what we want
+        comments = list(critic.comment_set.all().values('id', 'user__id', 'user__name', 'text', 'rate'))
+        critic_dict = critic.__dict__
+        critic_dict.pop('_state')
+        movie.pop('_state')
+
+        return Response({'critic': critic_dict, 'user': user, 'movie': movie, 'comments': comments})
+
+
 class CommentViewSet(viewsets.ModelViewSet):
     """Handling all comments creation and retrieving
         patch update and delete are not supported
