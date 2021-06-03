@@ -15,7 +15,6 @@ class Comment(models.Model):
         this will save the user created the comment and also the rate and comment text
     
     """
-
     user = models.ForeignKey(
         'users.MSUserProfile',
         on_delete=models.CASCADE
@@ -31,7 +30,6 @@ class Comment(models.Model):
 class Critic(models.Model):
     """This model saves reviews about each movie
     """
-
     user = models.ForeignKey(
         'users.MSUserProfile',
         on_delete=models.CASCADE

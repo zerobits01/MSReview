@@ -4,3 +4,4 @@ django-versatileimagefield
 tox
 Pillow
 django-filter
+drf-access-policy
