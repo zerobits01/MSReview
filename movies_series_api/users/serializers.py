@@ -39,3 +39,40 @@ class MSUserProfileSerializer(serializers.ModelSerializer):
             instance.set_password(password)
 
         return super().update(instance, validated_data)
+
+
+class TestimonialSerializer(serializers.ModelSerializer):
+    """Serializes a user profile object"""
+
+    class Meta:
+        model = models.Testimonial
+        fields = ('id', 'email', 'name', 'comment')
+        read_only_fields = ["id"]
+
+    def create(self, validated_data):
+        """Create and return a new user"""
+        testimonial = models.Testimonial.objects.create(
+            email=validated_data['email'],
+            name=validated_data['name'],
+            comment=validated_data['comment']
+        )
+
+        return testimonial
+
+class SiteCommentsSerializer(serializers.ModelSerializer):
+    """Serializes a user profile object"""
+
+    class Meta:
+        model = models.SiteComments
+        fields = ('id', 'email', 'name', 'comment')
+        read_only_fields = ["id"]
+
+    def create(self, validated_data):
+        """Create and return a new user"""
+        scomment = models.SiteComments.objects.create(
+            email=validated_data['email'],
+            name=validated_data['name'],
+            comment=validated_data['comment']
+        )
+
+        return scomment

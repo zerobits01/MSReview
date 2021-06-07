@@ -141,3 +141,23 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     # it can search based on these fields
     search_fields = ('name', 'email',)
 
+
+class TestimonialViewSet(viewsets.ModelViewSet):
+    """Handle creating and updating Testimonial"""
+    
+    # just defining classes
+    serializer_class = serializers.TestimonialSerializer
+    queryset = models.Testimonial.objects.all()
+    
+    http_method_names = ['get', 'post']
+
+
+
+class SiteCommentsViewSet(viewsets.ModelViewSet):
+    """Handle creating and updating Testimonial"""
+    
+    # just defining classes
+    serializer_class = serializers.SiteCommentsSerializer
+    queryset = models.SiteComments.objects.all()
+    
+    http_method_names = ['post']
