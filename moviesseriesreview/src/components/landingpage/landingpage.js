@@ -1,16 +1,15 @@
 import React from 'react';
 import './landingpage.css';
-import SimpleLineIcon from 'react-simple-line-icons';
+import SimpleIcons from 'react-simple-line-icons';
 import bgshow1 from './img/bg-showcase-1.jpg';
 import bgshow2 from './img/bg-showcase-2.jpg';
 import bgshow3 from './img/bg-showcase-3.jpg';
-import styles from './landingpage.css';
 
 class LandingPage extends React.Component {
 
     render() {
         return (
-            <div className="body bg-black">
+            <div className="body bg-black" style={{color: 'burlywood'}}>
                 <header className="masthead text-center">
                     <div className="container">
                     <div className="row">
@@ -24,6 +23,18 @@ class LandingPage extends React.Component {
                     </div>
                 </header>
 
+
+                <div className="text-center bg-000">
+                <hr 
+                style={{
+                    margin: 0,  
+                    height: "1",
+                    backgroundColor: "burlywood"
+                }}
+                />
+
+                </div>
+                
 
                 <section className="features-icons text-center bg-000">
                     <div className="container bg-000" >
@@ -60,6 +71,17 @@ class LandingPage extends React.Component {
                 </section>
 
 
+                <div className="text-center bg-000">
+                <br />
+                <hr 
+                style={{
+                    margin: 0,  
+                    height: "1",
+                    backgroundColor: "burlywood"
+                }}
+                />
+
+                </div>
 
                 <section className="showcase bg-000">
 
@@ -71,6 +93,14 @@ class LandingPage extends React.Component {
                         <p className="lead mb-0">When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!</p>
                         </div>
                     </div>
+                  
+                    <hr 
+                    style={{
+                        margin: 0,  
+                        height: "1",
+                        backgroundColor: "burlywood"
+                    }}
+                    />
 
                     <div className="row no-gutters">
                         <div className="col-lg-6 my-auto mx-auto showcase-img" style={{background: `url(${bgshow2})`, backgroundSize: "cover"}}></div>
@@ -80,6 +110,14 @@ class LandingPage extends React.Component {
                         </div>
                     </div>
     
+                    <hr 
+                    style={{
+                        margin: 0,  
+                        height: "1",
+                        backgroundColor: "burlywood"
+                    }}
+                    />
+
                     <div className="row no-gutters">
                         <div className="col-lg-6 my-auto mx-auto order-lg-2 showcase-img" style={{background: `url(${bgshow3})`, backgroundSize: "cover"}}></div>
                         <div className="col-lg-6 my-auto mx-auto order-lg-1 showcase-text">
@@ -87,6 +125,15 @@ class LandingPage extends React.Component {
                         <p className="lead mb-0">In this site you can find the best movies and series based on other people rating. After watching the movie or series you can read the critics and comment on them and you will read other people idea about the movie</p>
                         </div>
                     </div>
+                    <br />
+                    <hr 
+                    style={{
+                        margin: 0,  
+                        height: "1",
+                        backgroundColor: "burlywood"
+                    }}
+                    />
+                    
                     </div>
                 </section>
 
@@ -119,7 +166,19 @@ class LandingPage extends React.Component {
                     </div>
                     </div>
                 </section>
+                
+                <div className="text-center bg-000">
+                <br />
+                <hr 
+                style={{
+                    margin: 0,  
+                    height: "1",
+                    backgroundColor: "burlywood"
+                }}
+                />
 
+                </div>
+                
 
                 <section className="call-to-action text-center">
                     <div className="overlay"></div>

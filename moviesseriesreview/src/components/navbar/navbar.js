@@ -2,32 +2,46 @@ import React from 'react';
 import './navbar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import {
+    BrowserRouter as Router,
+    Link
+  } from 'react-router-dom';
+import MyRouter from '../../Router/routes';
+
 class NavBar extends React.Component {
 
     render() {
         // # is for sectioning in html
-        return <div>
+        return <Router>
             <nav className="nav navbar-fixed-top">
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#news">Critics</a></li>
-                    <li><a href="#contact">About us!</a></li>
-                    {/* <li><a href="javascript:void(0)" className="dropbtn">Dropdown</a></li>
-                    <div className="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div> */}
-                    <li className="fright"><a className="btn btn-burly" href="#" >Sign In</a></li>
-                    <li className="fright"><a className="btn btn-burly" href="#" >Sign Up</a></li>            
+                    <li>
+                        <Link to="/">Home</Link>    
+                    </li>
+                    <li>
+                        <Link to="/critics">Critics</Link>    
+                    </li>
+                    <li>
+                        <Link to="/movies">Movies</Link>    
+                    </li>
+
+                    <li className="fright">
+                        <Link to="/signin">Sign In</Link>    
+                    </li>
+                    <li className="fright">
+                        <Link to="/signup">Sign Up</Link>    
+                    </li>            
                 </ul>
             </nav>
             <hr style={{
                 backgroundColor: 'burlywood',
                 height: 20
             }}/>
-        </div>;
-    }
+
+            <MyRouter />
+        </Router>;
+
+}
 }
 
 
