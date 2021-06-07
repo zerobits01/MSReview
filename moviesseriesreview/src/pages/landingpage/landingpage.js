@@ -4,10 +4,32 @@ import SimpleIcons from 'react-simple-line-icons';
 import bgshow1 from './img/bg-showcase-1.jpg';
 import bgshow2 from './img/bg-showcase-2.jpg';
 import bgshow3 from './img/bg-showcase-3.jpg';
+import { Icon} from '@iconify/react';
+import bxlInstagram from '@iconify-icons/bx/bxl-instagram';
+import bxlTwitter from '@iconify-icons/bx/bxl-twitter';
+import bxlFaceBook from '@iconify-icons/bx/bxl-facebook';
+import Testimonial from '../../components/testimonials/testimonial';
 
 class LandingPage extends React.Component {
-
+    
     render() {
+        let data = [
+            {
+                name: "Paolo M.",
+                comment: "Site Design is really good and its easy to use the site",
+                imagesrc: "https://cdn4.vectorstock.com/i/1000x1000/35/68/person-icon-male-user-profile-avatar-vector-18833568.jpg"
+            },
+            {
+                name: "Sara J.",
+                comment: "Site Design is really good and its easy to use the site",
+                imagesrc:"https://cdn4.vectorstock.com/i/1000x1000/35/68/person-icon-male-user-profile-avatar-vector-18833568.jpg"
+            },
+            {
+                name: "Amanda K.",
+                comment: "Its terrible its not good i hate it",
+                imagesrc: "https://cdn4.vectorstock.com/i/1000x1000/35/68/person-icon-male-user-profile-avatar-vector-18833568.jpg"
+            }
+        ]
         return (
             <div className="body bg-black" style={{color: 'burlywood'}}>
                 <header className="masthead text-center">
@@ -138,45 +160,17 @@ class LandingPage extends React.Component {
                 </section>
 
 
-                <section className="testimonials text-center bg-000"> 
-                    <div className="container">
-                    <h2 className="mb-5">Critics Comments</h2>
-                    <div className="row">
-                        <div className="col-lg-4">
-                        <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                            <img className="img-fluid rounded-circle mb-3" src={require("./img/testimonials-1.jpg")} alt="" />
-                            <h5>Margaret E.</h5>
-                            <p className="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
-                        </div>
-                        </div>
-                        <div className="col-lg-4">
-                        <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                            <img className="img-fluid rounded-circle mb-3" src={require("./img/testimonials-2.jpg")} alt="" />
-                            <h5>Fred S.</h5>
-                            <p className="font-weight-light mb-0">"Site Design is really good and its easy to use the site"</p>
-                        </div>
-                        </div>
-                        <div className="col-lg-4">
-                        <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                            <img className="img-fluid rounded-circle mb-3" src={require("./img/testimonials-3.jpg")} alt="" />
-                            <h5>Sarah W.</h5>
-                            <p className="font-weight-light mb-0">"Thanks so much for making these free contents available to us!"</p>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </section>
                 
                 <div className="text-center bg-000">
-                <br />
-                <hr 
-                style={{
-                    margin: 0,  
-                    height: "1",
-                    backgroundColor: "burlywood"
-                }}
-                />
-
+                    <Testimonial data={data}/>
+                    <br />
+                    <hr 
+                        style={{
+                            margin: 0,  
+                            height: "1",
+                            backgroundColor: "burlywood"
+                        }}
+                    />
                 </div>
                 
 
@@ -202,6 +196,51 @@ class LandingPage extends React.Component {
                     </div>
                     </div>
                 </section>
+
+
+                <footer className="footer bg-000">
+                    <div className="container" >
+                    <div className="row" >
+                        <div className="col-lg-6 h-100 text-center text-lg-left my-auto" >
+                        <ul className="list-inline mb-2" >
+                            <li className="list-inline-item">
+                            <a href="#" className="txt-color">About</a>
+                            </li>
+                            <li className="list-inline-item">&sdot;</li>
+                            <li className="list-inline-item">
+                            <a href="#" className="txt-color">Contact</a>
+                            </li>
+                            
+                            <li className="list-inline-item">&sdot;</li>
+                            <li className="list-inline-item">
+                            <a href="#" className="txt-color">Privacy Policy</a>
+                            </li>
+                        </ul>
+                        <p className="text-muted small mb-4 mb-lg-0">&copy; All Rights Reserved.</p>
+                        </div>
+                        <div className="col-lg-6 h-100 text-center text-lg-right my-auto" >
+                        <ul className="list-inline mb-0">
+                            <li className="list-inline-item mr-3">
+                            <a href="#">
+                            <Icon icon={bxlTwitter} className="logo-small"/>
+                            </a>
+                            </li>
+                            <li className="list-inline-item logo-small">
+                            <a href="#">
+                                <Icon icon={bxlInstagram} className="logo-small"/>
+                            </a>
+                            </li>
+                            <li className="list-inline-item logo-small">
+                            <a href="#">
+                                <Icon icon={bxlFaceBook} className="logo-small"/>
+                            </a>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                    </div>
+                </footer>
+
             </div>
         );
     }

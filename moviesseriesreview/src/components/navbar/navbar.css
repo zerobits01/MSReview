@@ -17,6 +17,10 @@
     float: right;
 }
 
+nav {
+    z-index : 10000;
+}
+
 nav ul {
     list-style-type: none;
     margin: 0;
@@ -26,6 +30,7 @@ nav ul {
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 1000;
 }
 
 nav li {

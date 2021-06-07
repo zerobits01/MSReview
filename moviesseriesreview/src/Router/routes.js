@@ -3,8 +3,9 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
-import LandingPage from '../components/landingpage/landingpage';
-import NotFound from '../components/notfound/notfound';
+import LandingPage from '../pages/landingpage/landingpage';
+import NotFound from '../pages/notfound/notfound';
+import AboutUs from '../pages/AboutUs/AboutUs';
 
 class MyRouter extends React.Component {
 
@@ -34,6 +35,12 @@ class MyRouter extends React.Component {
                         path="/movies"
                         // component={Movies}
                     />
+
+                    <Route
+                        path="/aboutus"
+                        component={AboutUs}
+                    />
+                    
                     <Route 
                         path="/signin"
                         // component={Singin}
@@ -45,6 +52,7 @@ class MyRouter extends React.Component {
                     <Route 
                         component={NotFound}
                     />
+
                 </Switch>
 
         );

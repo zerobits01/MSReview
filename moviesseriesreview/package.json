@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@iconify-icons/bx": "*",
+    "@iconify-icons/carbon": "*",
+    "@iconify-icons/simple-line-icons": "*",
+    "@iconify/react": "*",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.1",
     "bootstrap": "4.6.0",
     "font-awesome": "*",
-    "glyphicons": "*",
     "jquery": "*",
     "react": "^17.0.1",
     "react-bootstrap": "*",
@@ -43,5 +46,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@iconify-icons/simple-line-icons": "^1.1.0",
+    "@iconify/react": "^1.1.4"
   }
 }
