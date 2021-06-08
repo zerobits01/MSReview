@@ -63,3 +63,20 @@ class MSUserProfile(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Return string representation of our user"""
         return self.email
+
+class SiteComments(models.Model):
+    """This is for saving comments about the site and 
+        it is related to contact us page
+    """
+    email = models.EmailField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
+    comment = models.TextField()
+
+class Testimonial(models.Model):
+    """This is for saving comments about the site and 
+        it is related to contact us page
+    """
+
+    email = models.EmailField(max_length=255)
+    name = models.CharField(max_length=255)
+    comment = models.TextField()

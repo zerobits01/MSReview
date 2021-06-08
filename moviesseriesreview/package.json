@@ -3,13 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@iconify-icons/bx": "*",
+    "@iconify-icons/carbon": "*",
+    "@iconify-icons/simple-line-icons": "*",
+    "@iconify/react": "*",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.1",
-    "bootstrap": "^5.0.1",
+    "bootstrap": "4.6.0",
+    "font-awesome": "*",
+    "jquery": "*",
     "react": "^17.0.1",
+    "react-bootstrap": "*",
+    "react-bootstrap-icons": "*",
     "react-dom": "^17.0.1",
-    "react-scripts": "4.0.3",
+    "react-router-dom": "*",
+    "react-scripts": "^1.1.5",
+    "react-simple-line-icons": "*",
+    "reactstrap": "*",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
@@ -35,5 +46,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@iconify-icons/simple-line-icons": "^1.1.0",
+    "@iconify/react": "^1.1.4"
   }
 }
