@@ -6,7 +6,8 @@ import {
 import LandingPage from '../pages/landingpage/landingpage';
 import NotFound from '../pages/notfound/notfound';
 import AboutUs from '../pages/AboutUs/AboutUs';
-
+import Login from '../pages/Login';
+import Signup from '../pages/Signup';
 class MyRouter extends React.Component {
 
     render() {
@@ -43,11 +44,11 @@ class MyRouter extends React.Component {
                     
                     <Route 
                         path="/signin"
-                        // component={Singin}
+                        component={Login}
                     />
                     <Route 
                         path="/signup"
-                        // component={Singup}
+                        component={Signup}
                     />
                     <Route 
                         component={NotFound}

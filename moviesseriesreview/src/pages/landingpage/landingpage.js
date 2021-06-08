@@ -147,7 +147,6 @@ class LandingPage extends React.Component {
                         <p className="lead mb-0">In this site you can find the best movies and series based on other people rating. After watching the movie or series you can read the critics and comment on them and you will read other people idea about the movie</p>
                         </div>
                     </div>
-                    <br />
                     <hr 
                     style={{
                         margin: 0,  
