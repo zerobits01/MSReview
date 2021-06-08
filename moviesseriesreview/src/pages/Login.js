@@ -12,13 +12,11 @@ class Login extends Component{
                 <span>welcome to yyy</span><br/><br/>
                 <div className="col-sm-10">
                 <div className="form-group">
-                    <input type="email" placeholder='email' className="form-control"  /><br/>
-                  </div>
-                  <div className="form-group">
-                    <input type="password" className="form-control" placeholder='password'  />
+                    <input type="email" placeholder='email' className="form-control" required="true"/><br/>
+                    <input type="password" className="form-control" placeholder='password'  required="true" />
                   </div>
                 </div>
-                <button type="button" className="btn btn-shima" >Sign In</button><br/>
+                <button type="Submit" className="btn btn-shima" >Sign In</button><br/>
                 <span >
                   Don't have an acount?   <a href='#'>Sign up!</a>
                 </span>
