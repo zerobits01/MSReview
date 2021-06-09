@@ -9,8 +9,10 @@ from rest_framework.settings import api_settings
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
 from users import serializers
+from utils import serializers as u_ser
 from . import models
 from users import permissions
+import json
 
 ###########################################  VIEWS ############################################
 
@@ -141,6 +143,38 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     # it can search based on these fields
     search_fields = ('name', 'email',)
 
+    def create(self, request, *args, **kwargs):
+
+        image_name = request.data["name"]
+        image = request.FILES
+        json_data = json.loads(request.data["data"])
+        image_validated = u_ser.ImageSerializer(data=request.data)
+        profile_validated = serializers.MSUserProfileSerializer(data=json_data)
+        created_image = None
+        created_profile = None
+        if image_validated.is_valid():
+            created_image = image_validated.save()
+            if profile_validated.is_valid():
+                created_profile = profile_validated.save()
+                created_profile.image = created_image
+                created_profile = created_profile.__dict__
+                created_image   = created_image.__dict__
+                created_profile.pop('_state')
+                created_profile.pop('password')
+                created_image.pop('_state')
+                data = {}
+                data['profile'] = str(created_profile)
+                data['image'] = str(created_image) 
+                return Response(data)
+        
+        if created_image:
+            created_image.delete()
+        if created_profile:
+            created_profile.delete()
+
+        return Response({
+            "message": "an error occured, please try later"
+        })
 
 class TestimonialViewSet(viewsets.ModelViewSet):
     """Handle creating and updating Testimonial"""

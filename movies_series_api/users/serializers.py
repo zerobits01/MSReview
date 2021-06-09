@@ -21,6 +21,11 @@ class MSUserProfileSerializer(serializers.ModelSerializer):
                 'style': {'input_type': 'password'}
             }
         }
+        
+        # this is how we can return all related instead rewriting the methods
+        expandable_fields = {
+            'image': ('utils.ImageSerializer'),
+        }
 
     def create(self, validated_data):
         """Create and return a new user"""

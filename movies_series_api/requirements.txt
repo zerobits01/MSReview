@@ -1,7 +1,8 @@
-Django
-djangorestframework
-django-versatileimagefield
 tox
+Django
 Pillow
 django-filter
+drf-flex-fields
 drf-access-policy
+djangorestframework
+django-versatileimagefield

@@ -48,6 +48,13 @@ class MSUserProfile(AbstractBaseUser, PermissionsMixin):
         help_text=_('Designates whether the user can log into this admin '
                     'site.'))    
     # because we gonna overwrite the default user we have to define our new model manager
+
+    image = models.OneToOneField(
+        'utils.Image',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
     
     objects = MSUserManager()
 
