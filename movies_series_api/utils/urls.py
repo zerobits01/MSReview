@@ -9,5 +9,6 @@ router.register('image', views.ImageViewSet, basename='image')
 
 urlpatterns = [
 
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('sendmail', views.send_email)
 ]
