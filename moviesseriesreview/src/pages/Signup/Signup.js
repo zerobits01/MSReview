@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import'bootstrap/dist/css/bootstrap.min.css';
-import '../csspages/Login.css'
+import '../../css/Login.css';
+
 
 class Signup extends Component{
     render(){
@@ -9,12 +10,12 @@ class Signup extends Component{
             <center>
             <div className='Login col-md-3 myjumbotron bg-black'>
             <form>
-                <span>welcome to yyy</span><br/><br/>
+                <span>welcome to our site</span><br/><br/>
                 <div className="col-sm-10">
                 <div className="form-group">
-                    <input type="text" placeholder='full name' className="form-control" required="true"/><br/>
-                    <input type="email" placeholder='email' className="form-control" required="true"/><br/>
-                    <input type="password" className="form-control" placeholder='password'  required="true" />
+                    <input type="text" placeholder='full name' className="form-control" required/><br/>
+                    <input type="email" placeholder='email' className="form-control" required/><br/>
+                    <input type="password" className="form-control" placeholder='password'  required />
                   </div>
                 </div>
                 <button type="Submit" className="btn btn-shima" >Sign Up</button><br/>

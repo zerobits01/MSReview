@@ -6,8 +6,11 @@ import {
 import LandingPage from '../pages/landingpage/landingpage';
 import NotFound from '../pages/notfound/notfound';
 import AboutUs from '../pages/AboutUs/AboutUs';
-import Login from '../pages/Login';
-import Signup from '../pages/Signup';
+import Login from '../pages/Login/Login';
+import Signup from '../pages/Signup/Signup';
+
+
+
 class MyRouter extends React.Component {
 
     render() {
@@ -51,8 +54,15 @@ class MyRouter extends React.Component {
                         component={Signup}
                     />
                     <Route 
+                        path="/go-to-profile"
+                    />
+                    <Route 
+                        path="/new-critic"
+                    />
+                    <Route 
                         component={NotFound}
                     />
+
 
                 </Switch>
 

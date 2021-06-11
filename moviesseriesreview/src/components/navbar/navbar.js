@@ -1,52 +1,77 @@
-import React from 'react';
 import './navbar.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-import {
-    BrowserRouter as Router,
-    Link
-  } from 'react-router-dom';
+import React from 'react';
 import MyRouter from '../../Router/routes';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {useAuthContext} from '../../context/auth/authContext'; // using {} is improtant because it is exporting multiple options
+import {
+BrowserRouter as Router,
+    Link
+} from 'react-router-dom';
 
-class NavBar extends React.Component {
+const NavBar = () => {
 
-    render() {
-        // # is for sectioning in html
-        return <Router>
+    const [authState, authDispatcher] = useAuthContext(); // const is important for definition
+
+    let right_hand_first = null;
+    let right_hand_second = null;
+    console.log(authState.isAuthenticated); 
+    if (authState.isAuthenticated) {
+        right_hand_first = (
+            <li className="fright">
+                <Link to="/go-to-profile">Go to Profile</Link>
+            </li>
+        );
+        right_hand_second = (
+            <li className="fright">
+                <Link to="/new-critic">New Critic</Link>
+            </li>
+        );
+
+    } else {
+        right_hand_first = (
+            <li className="fright">
+                <Link to="/signin">Sign In</Link>
+            </li>
+        );
+        right_hand_second = (
+            <li className="fright">
+                <Link to="/signup">Sign Up</Link>
+            </li>
+        );
+    }
+
+    return (
+        <Router>
             <nav className="nav navbar-fixed-top">
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>    
+                        <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/critics">Critics</Link>    
+                        <Link to="/critics">Critics</Link>
                     </li>
                     <li>
-                        <Link to="/movies">Movies</Link>    
+                        <Link to="/movies">Movies</Link>
                     </li>
                     <li>
-                        <Link to="/aboutus">AboutUs</Link>    
+                        <Link to="/aboutus">AboutUs</Link>
                     </li>
-
-
-                    <li className="fright">
-                        <Link to="/signin">Sign In</Link>    
-                    </li>
-                    <li className="fright">
-                        <Link to="/signup">Sign Up</Link>    
-                    </li>            
+                    {right_hand_first}
+                    {right_hand_second}
                 </ul>
             </nav>
+
             <hr style={{
                 backgroundColor: 'burlywood',
                 height: 20
-            }}/>
+            }} />
 
             <MyRouter />
-        </Router>;
+        </Router>
+    );
+
+
 
 }
-}
-
 
 export default NavBar;

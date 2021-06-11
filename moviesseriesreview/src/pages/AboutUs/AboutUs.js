@@ -46,9 +46,9 @@ class AboutUs extends React.Component {
 
                 <br />
 
-                <div class="container-fluid ">
-                    <div class="row justify-content-center">
-                        <div class="col-sm-6">
+                <div className="container-fluid ">
+                    <div className="row justify-content-center">
+                        <div className="col-sm-6">
                             <div className="row  justify-content-center">
                                 <span>
                                     <Icon icon={globeIcon} className="logo"/>

@@ -1,1 +1,4 @@
-const BaseAddr = "localhost:8000";
+const BaseAddr = "http://localhost:8000";
+export {
+    BaseAddr,
+};
