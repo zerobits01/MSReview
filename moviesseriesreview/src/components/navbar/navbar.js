@@ -2,19 +2,26 @@ import './navbar.css';
 import React from 'react';
 import MyRouter from '../../Router/routes';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {useAuthContext} from '../../context/auth/authContext'; // using {} is improtant because it is exporting multiple options
+import { useAuthContext } from '../../context/auth/authContext'; // using {} is improtant because it is exporting multiple options
 import {
-BrowserRouter as Router,
+    BrowserRouter as Router,
     Link
 } from 'react-router-dom';
 
 const NavBar = () => {
 
-    const [authState, authDispatcher] = useAuthContext(); // const is important for definition
+    const [authState, authDisptacher] = useAuthContext(); // const is important for definition
 
+    const logOut = () => {
+        authDisptacher({
+            type: 'logout'
+        });
+    }
+
+    let right_hand = null;
     let right_hand_first = null;
     let right_hand_second = null;
-    console.log(authState.isAuthenticated); 
+    console.log(authState.isAuthenticated);
     if (authState.isAuthenticated) {
         right_hand_first = (
             <li className="fright">
@@ -26,7 +33,11 @@ const NavBar = () => {
                 <Link to="/new-critic">New Critic</Link>
             </li>
         );
-
+        right_hand = (
+            <li className="fright" onClick={logOut}>
+                <Link to="#">logout</Link>
+            </li>
+        );
     } else {
         right_hand_first = (
             <li className="fright">
@@ -56,6 +67,7 @@ const NavBar = () => {
                     <li>
                         <Link to="/aboutus">AboutUs</Link>
                     </li>
+                    {right_hand}
                     {right_hand_first}
                     {right_hand_second}
                 </ul>

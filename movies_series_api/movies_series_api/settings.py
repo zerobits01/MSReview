@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'versatileimagefield',
+    'corsheaders',
     'users',
     'movies',
     'critics',
@@ -50,11 +51,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'movies_series_api.urls'
@@ -155,3 +158,5 @@ EMAIL_HOST_PASSWORD=''
 EMAIL_HOST_USER='pgr0101mm@gmail.com'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CORS_ORIGIN_ALLOW_ALL = True

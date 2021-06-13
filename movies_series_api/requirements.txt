@@ -4,5 +4,6 @@ Pillow
 django-filter
 drf-flex-fields
 drf-access-policy
+django-cors-headers
 djangorestframework
 django-versatileimagefield
