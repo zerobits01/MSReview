@@ -13,6 +13,7 @@ from utils import serializers as u_ser
 from . import models
 from users import permissions
 import json
+from rest_framework import status
 
 ###########################################  VIEWS ############################################
 
@@ -152,7 +153,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         if profile_validated.is_valid():
             created_profile = profile_validated.save()
         else:
-            return Response(profile_validated.errors)
+            return Response(profile_validated.errors, status=status.HTTP_400_BAD_REQUEST)
 
         # add image if exists
         if "name" in request.data:
@@ -163,7 +164,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
                 created_profile.save()
                 print(20*"#")
             else:
-                print(image_validated.errors)
+                print(image_validated.errors, status=status.HTTP_400_BAD_REQUEST)
                 
         created_profile = created_profile.__dict__
         created_profile.pop('_state')
@@ -175,7 +176,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             data['image'] = str(created_image)
 
         return Response(data)
-
 
 
 class TestimonialViewSet(viewsets.ModelViewSet):

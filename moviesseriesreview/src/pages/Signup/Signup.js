@@ -119,8 +119,14 @@ const Signup = () => {
             });
 
 
-        }, (error) => {
-          console.log(error);
+        })
+        .catch( (error) => {
+          let error_message = ''
+          for(let err in error.response.data){
+            error_message = error_message + err + ":\t" + error.response.data[err] + "\n"; 
+          }
+          console.log(error_message);
+          alert(error_message);
         });
 
       document.getElementById("signup-form").reset(); // this is how we prevent the refresh and clear the form
@@ -153,7 +159,7 @@ const Signup = () => {
             </div>
             <button type="submit" className="btn btn-shima" onClick={signupButton}>Sign Up</button><br />
             <span >
-              have an acount?   <a href='#'>Sign In!</a>
+              have an acount?   <a href='/signin'>Sign In!</a>
             </span>
           </form>
         </div>

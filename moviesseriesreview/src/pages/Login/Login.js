@@ -3,6 +3,7 @@ import '../../css/Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useAuthContext } from '../../context/auth/authContext';
 import { URLS } from '../../global/global-vars';
+import { Redirect } from 'react-router-dom';
 const axios = require('axios');
 
 
@@ -32,26 +33,42 @@ const Login = () => {
 
   const loginButton = (event) => {
     event.preventDefault();
-    console.log(typeof (data.username))
+
     if ((data.username && data.password) && !(data.username.length === 0 || data.password.length === 0)) {
       axios.post(URLS.login_url, data)
         .then((response) => {
-          authDisptacher({
-            type: 'login',
-            isAuthenticated: true,
-            user: {
-              username: data.username,
-              token: response.data.token
-            }
-          });
-          document.getElementById("login-form").reset(); // this is how we prevent the refresh and clear the form
 
-        }, (error) => {
-          console.log(error);
-        });
+          if (response.status == 200) {
+
+            authDisptacher({
+              type: 'login',
+              isAuthenticated: true,
+              user: {
+                username: data.username,
+                token: response.data.token
+              }
+            });
+            console.log("test")
+            document.getElementById("login-form").reset(); // this is how we prevent the refresh and clear the form
+            dispatchData({ redirect: true });
+
+          }
+
+        })
+        .catch(error => {
+          alert("username or password is wrong!!")
+          // console.log(error.response);
+        })
+        // .then(() => {
+        //   console.log("another thing")
+        // });
     } else {
       alert("username and password can not be empty");
     }
+  }
+
+  if (data.redirect) {
+    return <Redirect to="/home" />;
   }
 
   return (
@@ -68,7 +85,7 @@ const Login = () => {
             </div>
             <button type="submit" className="btn btn-shima" onClick={loginButton}>Sign In</button><br />
             <span >
-              Don't have an acount?   <a href='#'>Sign up!</a>
+              Don't have an acount?   <a href='/signup'>Sign up!</a>
             </span>
 
           </form>

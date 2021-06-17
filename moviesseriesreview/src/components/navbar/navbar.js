@@ -56,7 +56,7 @@ const NavBar = () => {
             <nav className="nav navbar-fixed-top">
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                        <Link to="/home">Home</Link>
                     </li>
                     <li>
                         <Link to="/critics">Critics</Link>
