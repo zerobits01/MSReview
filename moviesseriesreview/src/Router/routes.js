@@ -8,8 +8,8 @@ import NotFound from '../pages/notfound/notfound';
 import AboutUs from '../pages/AboutUs/AboutUs';
 import Login from '../pages/Login/Login';
 import Signup from '../pages/Signup/Signup';
-
-
+import Home from '../pages/Home/index';
+import Critics from '../pages/Critics/index';
 
 class MyRouter extends React.Component {
 
@@ -27,13 +27,13 @@ class MyRouter extends React.Component {
 
                     <Route 
                         path="/home" 
-                        // component={Home}
+                        component={Home}
                         // we jave render for inline components
                         // child like render, but in every situation it will be rendered
                     />
                     <Route 
                         path="/critics" 
-                        // component={Critics}
+                        component={Critics}
                     />
                     <Route 
                         path="/movies"

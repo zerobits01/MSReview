@@ -1,0 +1,30 @@
+
+
+.card-member {
+  background-color: black;
+  border-style: groove;
+  border-color: burlywood;
+  border-width: 7px;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.container {
+  padding: 80px 120px;
+}
+
+.row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+.row > [class*="col-"] {
+  display: flex;
+  flex-direction: column;
+}
