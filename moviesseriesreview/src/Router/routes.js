@@ -10,6 +10,7 @@ import Login from '../pages/Login/Login';
 import Signup from '../pages/Signup/Signup';
 import Home from '../pages/Home/index';
 import Critics from '../pages/Critics/index';
+import Profile from '../pages/profile/index';
 
 class MyRouter extends React.Component {
 
@@ -55,6 +56,7 @@ class MyRouter extends React.Component {
                     />
                     <Route 
                         path="/go-to-profile"
+                        component={Profile}
                     />
                     <Route 
                         path="/new-critic"

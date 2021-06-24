@@ -120,10 +120,10 @@ const Signup = () => {
 
 
         })
-        .catch( (error) => {
+        .catch((error) => {
           let error_message = ''
-          for(let err in error.response.data){
-            error_message = error_message + err + ":\t" + error.response.data[err] + "\n"; 
+          for (let err in error.response.data) {
+            error_message = error_message + err + ":\t" + error.response.data[err] + "\n";
           }
           console.log(error_message);
           alert(error_message);
@@ -144,7 +144,8 @@ const Signup = () => {
       <center>
         <div className='Login col-md-3 myjumbotron bg-black'>
           <form id="signup-form">
-            <span>welcome to our site</span><br /><br />
+            <br />
+            <span style={{color: "burlywood"}}>welcome to our site</span><br /><br />
             <div className="col-sm-10">
               <div className="form-group">
                 <input type="text" placeholder='full name' className="form-control" onChange={handleName} required /><br />
@@ -152,15 +153,19 @@ const Signup = () => {
                 <input type="password" className="form-control" placeholder='password' onChange={handlePassword} required /><br />
                 <input type="password" className="form-control" placeholder='password confirm' onChange={handlePassword1} required />
               </div>
-              <div className="form-group">
-                <label >Profile image</label>
-                <input type="file" className="form-control-file" id="profileImage" />
+              <div style={{ height: "4rem" }}>
+                <label for="files" className="btn btn-burly ">Select Image</label>
+                <input id="files" style={{ visibility: "hidden", height: 0, widows: 0 }} type="file" />
               </div>
             </div>
-            <button type="submit" className="btn btn-shima" onClick={signupButton}>Sign Up</button><br />
+            <button type="submit" className="btn btn-burly" onClick={signupButton}>Sign Up</button>
+            <br />
+            <br />
             <span >
               have an acount?   <a href='/signin'>Sign In!</a>
             </span>
+            <br />
+            <br />
           </form>
         </div>
 

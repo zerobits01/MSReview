@@ -24,6 +24,7 @@
     "react-router-dom": "*",
     "react-scripts": "^1.1.5",
     "react-simple-line-icons": "*",
+    "react-super-responsive-table": "*",
     "reactstrap": "*",
     "web-vitals": "^1.1.0"
   },

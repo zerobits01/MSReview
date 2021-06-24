@@ -76,7 +76,8 @@ const Login = () => {
       <center>
         <div className='Login col-md-3 myjumbotron bg-black'>
           <form id="login-form">
-            <span>welcome to our site</span><br /><br />
+          <br />
+          <span style={{color: "burlywood"}}>welcome to our site</span><br /><br />
             <div className="col-sm-10">
               <div className="form-group">
                 <input type="email" placeholder='email' className="form-control" required onChange={handleEmail} /><br />
@@ -87,7 +88,8 @@ const Login = () => {
             <span >
               Don't have an acount?   <a href='/signup'>Sign up!</a>
             </span>
-
+            <br />
+            <br />
           </form>
         </div>
       </center>
