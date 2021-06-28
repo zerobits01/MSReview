@@ -12,12 +12,41 @@ class RetrieveMovies(viewsets.ModelViewSet):
     serializer_class = serializers.MoviesSeries
     http_method_names = ['get']
 
+    def list(self, request):
+        data = []
+
+        movies = self.queryset.filter().order_by("-id")[:10]
+        for movie in movies:
+            data.append({
+                "id": movie.id,
+                "title": movie.title,
+                "description": movie.description,
+                "imagesrc": str(movie.image.all()[0].image),
+                "alt": "movie item"
+            })
+
+        return Response(data)
+
     def retrieve(self, request, pk=None):
         # we can use the pk to get something from model
         movie = self.queryset.get(pk=pk)
-        
+        critics = []
         # retrieving data from critic needs the _state so before deleting the data we have to retrieve what we want
-        critics = list(movie.critic_set.all().values('id', 'user__id', 'user__name', 'text', 'rate'))
+        critics_temp = movie.critic_set.all()
+        for critic in critics_temp:
+            critics.append(
+                {
+                    "id": critic.id,
+                    "title": movie.title,
+                    "description": critic.text,
+                    "imagesrc": str(movie.image.all()[0].image),
+                    "alt": "critic item"
+                }
+            )
+        image = movie.image.filter().first()
+        image = image.__dict__
+        image.pop('_state')
         movie_dict = movie.__dict__
         movie_dict.pop('_state')
+        movie_dict['image'] = image
         return Response({'movie': movie_dict, 'critics': critics})

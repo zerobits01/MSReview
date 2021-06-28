@@ -1,0 +1,37 @@
+.showcase .showcase-text {
+  padding: 3rem;
+}
+
+.showcase .showcase-img {
+  background: no-repeat center;
+  min-height: 30rem;
+  padding: 5rem;
+  background-size: cover;
+}
+
+.showcase .showcase-img1 {
+  background: no-repeat center;
+  /* background-image: url("./img/bg-showcase-1.jpg"); */
+  min-height: 30rem;
+  padding: 5rem;
+  background-size: cover;
+}
+
+@media (min-width: 768px) {
+  .showcase .showcase-text {
+    padding: 7rem;
+  }
+}
+
+
+.side-nav {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 26.5%; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 3.2rem; /* Stay at the top */
+    right: 0;
+    background-color: rgba(0,0,0,0.6); /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+}

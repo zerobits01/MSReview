@@ -29,7 +29,34 @@ class CriticViewSet(viewsets.ModelViewSet):
         context = super(CriticViewSet, self).get_serializer_context()
         context.update({"request": self.request})
         return context
+# {
+#     id: id
+#     title: props.data.movie_title,
+#     description: item.text,
+#     imagesrc: item.image,
+#     rate: item.rate,
+#     alt: "ciritic image"
 
+# }
+
+    def list(self, request):
+        data = []
+
+        critics = self.queryset.filter().order_by("-id")[:10]
+        for critic in critics:
+            movie = critic.movie
+            image = movie.image.all()
+            data.append({
+                "id": critic.id,
+                "user_name": critic.user.name,
+                "title": movie.title,
+                "description": critic.text,
+                "imagesrc": str(image[0].image),
+                "rate": critic.rate,
+                "alt": "critic item from"
+            })
+
+        return Response(data)
 
     def retrieve(self, request, pk=None):
         # we can use the pk to get something from model

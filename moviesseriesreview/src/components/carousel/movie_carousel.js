@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import FormImpl from 'react-bootstrap/esm/Form';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import CarouselItem from './carousel-item/carousel-item';
+import CarouselItem from '../carousel-item/carousel-item';
+import {Link} from 'react-router-dom';
+
 
 const responsive = {
     desktop: {
@@ -22,14 +25,14 @@ const responsive = {
 };
 
 
-const MyCarousel = (props) => {
+const MovieCarousel = (props) => {
 
     return (
-        <div className="container-fluid" style={{ 
+        <div className="container-fluid" style={{
             color: 'white',
-            background: "rgba(0,0,0,0.5)" 
-            
-            }}>
+            background: "rgba(0,0,0,0.5)"
+
+        }}>
             <h1 >
                 {props.data.title ? props.data.title : "Title"}
             </h1>
@@ -57,7 +60,9 @@ const MyCarousel = (props) => {
             // itemClass="carousel-item-padding-2-rem"
             >
                 {props.data.items.map((item, index) => {
-                    return <CarouselItem data={item} />;
+                    return <Link to={'/movie/' + item.id}>
+                        <CarouselItem data={item} />
+                </Link>
 
                 })}
             </Carousel>
@@ -74,4 +79,4 @@ const MyCarousel = (props) => {
 }
 
 
-export default MyCarousel;
+export default MovieCarousel;

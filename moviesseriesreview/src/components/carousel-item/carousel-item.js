@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 import { Image } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {URLS} from '../../global/global-vars';
 import './carousel-item.css'
 
-
+/*
+data template:
+{
+    imagesrc:
+    alt:
+    title:
+    description:
+}
+*/
 
 const CarouselItem = (props) => {
     return (
-        <div className="" style={{
+        <div style={{
+            color: 'burlywood',
             margin: "2rem"
         }}>
             <div className="row">
@@ -24,7 +34,7 @@ const CarouselItem = (props) => {
                         <div className="justify-content-center">
                             {/*  style={{ background: `url(${bgshow3})`, backgroundSize: "cover" }} */}
                             <img
-                                src={props.data.imagesrc}
+                                src={URLS.media_url + props.data.imagesrc}
                                 alt={props.data.alt ? props.data.alt : 'This is the alt'}
                                 className="rounded img-thumbnail"
                                 style={{
@@ -45,14 +55,14 @@ const CarouselItem = (props) => {
                                 textOverflow: "ellipsis",
                                 overflow: "hidden",
                                 whiteSpace: "nowrap",
+                                width: "15rem",
+
                             }}>
                                 {props.data.description ? props.data.description : 'This is the description'}
                             </p>
                         </div>
-
                     </center>
                 </div>
-
             </div>
 
         </div>

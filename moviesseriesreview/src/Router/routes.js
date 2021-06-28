@@ -11,62 +11,72 @@ import Signup from '../pages/Signup/Signup';
 import Home from '../pages/Home/index';
 import Critics from '../pages/Critics/index';
 import Profile from '../pages/profile/index';
+import ShowMovie from '../pages/ShowMovie/index';
+import ShowCritic from '../pages/ShowCritic/index';
 
 class MyRouter extends React.Component {
 
     render() {
         return (
-                <Switch>
-                    <Route 
-                        path="/" 
-                        exact 
-                        // this is so important to use exact here
-                        component={LandingPage}
-                        // we jave render for inline components
-                        // child like render, but in every situation it will be rendered
-                    />
+            <Switch>
+                <Route
+                    path="/"
+                    exact
+                    // this is so important to use exact here
+                    component={LandingPage}
+                // we jave render for inline components
+                // child like render, but in every situation it will be rendered
+                />
 
-                    <Route 
-                        path="/home" 
-                        component={Home}
-                        // we jave render for inline components
-                        // child like render, but in every situation it will be rendered
-                    />
-                    <Route 
-                        path="/critics" 
-                        component={Critics}
-                    />
-                    <Route 
-                        path="/movies"
-                        // component={Movies}
-                    />
+                <Route
+                    path="/home"
+                    component={Home}
+                // we jave render for inline components
+                // child like render, but in every situation it will be rendered
+                />
+                <Route
+                    path="/critics"
+                    component={Critics}
+                />
+                <Route
+                    path="/movies"
+                // component={Movies}
+                />
 
-                    <Route
-                        path="/aboutus"
-                        component={AboutUs}
-                    />
-                    
-                    <Route 
-                        path="/signin"
-                        component={Login}
-                    />
-                    <Route 
-                        path="/signup"
-                        component={Signup}
-                    />
-                    <Route 
-                        path="/go-to-profile"
-                        component={Profile}
-                    />
-                    <Route 
-                        path="/new-critic"
-                    />
-                    <Route 
-                        component={NotFound}
-                    />
+                <Route
+                    path="/aboutus"
+                    component={AboutUs}
+                />
+
+                <Route
+                    path="/signin"
+                    component={Login}
+                />
+                <Route
+                    path="/signup"
+                    component={Signup}
+                />
+                <Route
+                    path="/go-to-profile"
+                    component={Profile}
+                />
+                <Route
+                    path="/movie/:id"
+                    component={ShowMovie}
+                />
+                <Route
+                    path="/critic/:id"
+                    component={ShowCritic}
+                />
+                <Route
+                    path="/new-critic"
+                />
+                <Route
+                    component={NotFound}
+                />
 
 
-                </Switch>
+            </Switch>
 
         );
     }
