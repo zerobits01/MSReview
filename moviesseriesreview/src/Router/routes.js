@@ -11,6 +11,7 @@ import Signup from '../pages/Signup/Signup';
 import Home from '../pages/Home/index';
 import Critics from '../pages/Critics/index';
 import Profile from '../pages/profile/index';
+import Create from '../pages/Create/create';
 
 class MyRouter extends React.Component {
 
@@ -60,6 +61,7 @@ class MyRouter extends React.Component {
                     />
                     <Route 
                         path="/new-critic"
+                        component={Create}
                     />
                     <Route 
                         component={NotFound}
