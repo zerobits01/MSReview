@@ -60,6 +60,12 @@ MIDDLEWARE = [
 
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+}
+
 ROOT_URLCONF = 'movies_series_api.urls'
 
 TEMPLATES = [

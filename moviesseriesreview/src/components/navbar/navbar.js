@@ -58,12 +58,12 @@ const NavBar = () => {
                     <li>
                         <Link to="/home">Home</Link>
                     </li>
-                    <li>
+                    {/* <li>
                         <Link to="/critics">Critics</Link>
                     </li>
                     <li>
                         <Link to="/movies">Movies</Link>
-                    </li>
+                    </li> */}
                     <li>
                         <Link to="/aboutus">AboutUs</Link>
                     </li>

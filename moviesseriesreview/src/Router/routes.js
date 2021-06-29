@@ -13,6 +13,8 @@ import Critics from '../pages/Critics/index';
 import Profile from '../pages/profile/index';
 import ShowMovie from '../pages/ShowMovie/index';
 import ShowCritic from '../pages/ShowCritic/index';
+import Create from '../pages/Create/create';
+
 
 class MyRouter extends React.Component {
 
@@ -69,7 +71,12 @@ class MyRouter extends React.Component {
                     component={ShowCritic}
                 />
                 <Route
+                    path="/showprofile/:email_param"
+                    component={Profile}
+                />
+                <Route
                     path="/new-critic"
+                    component={Create}
                 />
                 <Route
                     component={NotFound}

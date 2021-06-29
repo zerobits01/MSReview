@@ -14,6 +14,11 @@ from . import models
 from users import permissions
 import json
 from rest_framework import status
+from django_filters import rest_framework as filters
+from .filters import UserFilter
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
+from django.http import JsonResponse
 
 ###########################################  VIEWS ############################################
 
@@ -135,9 +140,11 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     # then check authorization
     permission_classes = (permissions.UpdateOwnProfile,)
 
-    filter_backends = (filters.SearchFilter,)
     # it can search based on these fields
     search_fields = ('name', 'email',)
+    # filter_backends = (filters.DjangoFilterBackend,)
+    # filterset_class = UserFilter
+
 
     def create(self, request, *args, **kwargs):
         image_name = None
@@ -196,3 +203,67 @@ class SiteCommentsViewSet(viewsets.ModelViewSet):
     queryset = models.SiteComments.objects.all()
 
     http_method_names = ['post']
+
+
+
+    def filter_email_base(self, queryset, name, value):
+        queryset = queryset.get(email=value)
+        data = {}
+        data["critics"] = []
+
+        for critic in queryset.critic_set.all():
+            c = critic.__dict__
+            c.pop("_state")
+            data["critics"].append(c)
+        
+        user = queryset.__dict__
+        user.pop("_state")
+        data["user"] = user
+        
+        return data
+        
+    def filter_email_base(self, queryset, name, value):
+        queryset = queryset.get(email=value)
+        data = {}
+        data["critics"] = []
+
+        for critic in queryset.critic_set.all():
+            c = critic.__dict__
+            c.pop("_state")
+            data["critics"].append(c)
+        
+        user = queryset.__dict__
+        user.pop("_state")
+        data["user"] = user
+        
+        return data
+        
+
+
+@api_view(('GET',))
+# @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
+def filter_email_base(request, email):
+        queryset = models.MSUserProfile.objects.get(email=email)
+        data = {}
+        data["critics"] = []
+        critics = queryset.critic_set.all()
+        print(critics)
+        for critic in critics:
+            data["critics"].append({
+                "id": critic.id,
+                "user_name": critic.user.name,
+                "title": critic.movie.title,
+                "description": critic.text,
+                "imagesrc": str(critic.movie.image.all()[0].image),
+                "rate": critic.rate,
+                "alt": "critic item from"
+            })
+        
+        data["user"] = {
+            "id": queryset.id,
+            "username": queryset.email,
+            "profile": str(queryset.image.image) 
+        }
+
+        return JsonResponse(data)
+        

@@ -29,7 +29,7 @@ const CriticCarousel = (props) => {
 
     return (
         <div className="container-fluid" style={{
-            color: 'white',
+            color: 'burlywood',
             background: "rgba(0,0,0,0.5)"
 
         }}>

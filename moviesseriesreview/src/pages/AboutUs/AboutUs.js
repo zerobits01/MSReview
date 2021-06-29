@@ -60,7 +60,7 @@ const AboutUs = () => {
     }
 
     return (
-        <div className="bg-black">
+        <div className="bg-black bg-div">
 
             {/* <div className="text-center">
                 <br />
@@ -75,7 +75,7 @@ const AboutUs = () => {
 
             <br />
 
-            <div className="container-fluid ">
+            <div className="container-fluid bg-div">
                 <div className="row justify-content-center">
                     <div className="col-sm-6">
                         <div className="row  justify-content-center">
@@ -105,7 +105,7 @@ const AboutUs = () => {
 
             <br />
             <br />
-            <div className="row justify-content-center">
+            <div className="row justify-content-center bg-div">
 
                 {/* {data.map((item,index)=>{
                     return (
@@ -127,7 +127,7 @@ const AboutUs = () => {
                 height: 1
             }} />
 
-            <div className="container-fluid">
+            <div className="container-fluid bg-div">
                 <h2 className="text-center">CONTACT</h2>
                 <br />
                 <div className="row">

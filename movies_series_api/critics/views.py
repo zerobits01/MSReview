@@ -61,7 +61,8 @@ class CriticViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk=None):
         # we can use the pk to get something from model
         critic = self.queryset.get(pk=pk)
-        user = {'id': critic.user.id, 'name': critic.user.name}
+        user = {'id': critic.user.id, 'name': critic.user.name, "email": critic.user.email, "profile": str(critic.user.image.image)}
+        image = str(critic.movie.image.all()[0].image)
         movie = critic.movie.__dict__
 
         # retrieving data from critic needs the _state so before deleting the data we have to retrieve what we want
@@ -69,7 +70,7 @@ class CriticViewSet(viewsets.ModelViewSet):
         critic_dict = critic.__dict__
         critic_dict.pop('_state')
         movie.pop('_state')
-
+        movie["imagesrc"] = image
         return Response({'critic': critic_dict, 'user': user, 'movie': movie, 'comments': comments})
 
 

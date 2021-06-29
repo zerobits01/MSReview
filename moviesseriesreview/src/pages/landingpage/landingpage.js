@@ -53,7 +53,7 @@ const LandingPage = () => {
         }
     ]
     return (
-        <div className="body bg-black" style={{ color: 'burlywood' }}>
+        <div className="body bg-black bg-div" style={{ color: 'burlywood' }}>
             <header className="masthead text-center">
                 <div className="container">
                     <div className="row">

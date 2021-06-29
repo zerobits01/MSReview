@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import { URLS } from '../../global/global-vars';
 import NotFound from '../notfound/notfound';
-import './show-movie.css';
+import '../../css/show-movie.css';
 import CriticCarousel from '../../components/carousel/critic_carousel';
 
 const axios = require("axios");
@@ -32,7 +32,7 @@ const ShowMovie = () => {
     }
 
     return (
-        <div style={{
+        <div className="bg-div" style={{
             color: "burlywood"
         }}>
 

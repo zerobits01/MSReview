@@ -19,5 +19,6 @@ urlpatterns = [
     path('', include(guest_router.urls)),
     path('ping/', views.Ping.as_view()), # ping class is an inherited class from APIView
     path('login/', views.UserLoginApiView.as_view()),
-    path('user/', include(user_router.urls))
+    path('user/', include(user_router.urls)),
+    path('user/email/<str:email>', views.filter_email_base)
 ]

@@ -8,6 +8,8 @@ const URLS = {
     critic_url      : BaseAddr + '/critic/', // can have all methods, /<pk> to get specific
     movie_url       : BaseAddr + '/movie/retrieve/', // only get is available
     contacus_url    : BaseAddr + '/contactus/',
+    user_url        : BaseAddr + '/user/profile/',
+    user_email_url  : BaseAddr + '/user/email/',
     comment_url     : BaseAddr + '/comment/', // for commenting on critics
     image_url       : BaseAddr + '/image/', // to create image for static serving we use /media/image/
     

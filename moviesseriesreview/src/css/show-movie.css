@@ -26,10 +26,10 @@
 
 .side-nav {
     height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 26.5%; /* Set the width of the sidebar */
+    width: 25.4%; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
-    top: 3.2rem; /* Stay at the top */
+    top: 3.3rem; /* Stay at the top */
     right: 0;
     background-color: rgba(0,0,0,0.6); /* Black */
     overflow-x: hidden; /* Disable horizontal scroll */

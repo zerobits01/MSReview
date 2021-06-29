@@ -7,7 +7,7 @@ const Critics = () => {
     // let available = createLargeData();
 
     return (
-        <div></div>
+        <div className="bg-div"></div>
     );
 }
 

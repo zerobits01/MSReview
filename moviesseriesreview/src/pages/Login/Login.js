@@ -72,7 +72,7 @@ const Login = () => {
   }
 
   return (
-    <div className="body">
+    <div className="body bg-div">
       <center>
         <div className='Login col-md-3 myjumbotron bg-black'>
           <form id="login-form">
