@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AlignTop } from 'react-bootstrap-icons';
 import Select from 'react-select';
 import Rate from '../../components/rating/Rating';
 import './create.css'
+
 const aquaticCreatures = [
   { label: 'Us', value: 'Us' },
   { label: 'Dolphin', value: 'Dolphin' },
@@ -12,7 +13,55 @@ const aquaticCreatures = [
   { label: 'Lobster', value: 'Lobster' },
 ];
 
+
 const Create=()=>{
+
+    const [state, setState] = useState({ select: null, title: '', critic: '', rate: 0 });
+    const {select} = state;
+
+    const rateCallBack = (rate) => {
+        setState(prevState => {
+            return {...prevState, rate: rate};
+        });
+    }
+
+    const handleCritic=()=>{
+       if(state.title.length==0 || state.select == null || state.critic.length==0 || state.rate === 0){
+            alert("please fill out all fields")
+        }else{
+
+            
+
+
+            console.log(state)
+        }
+
+    }
+
+    
+    const handleTitle = (event) => {
+        setState(prevState => {
+            return {...prevState, title: event.target.value}
+        });
+
+      };
+
+    
+      const handleCriticBox = event => {
+        setState(prevState => {
+            return {...prevState, critic: event.target.value}
+        });
+
+      };
+
+    const handleChange = selectedOption => {
+        setState(prevState => {
+            return {...prevState, select: selectedOption}
+        });
+        console.log(`Option selected:`, selectedOption);
+      };
+
+
     return(
           <div className='divis' >
             <center>
@@ -23,25 +72,28 @@ const Create=()=>{
                       
                             
                         <div className="col-sm-5 " bg-black  style={{color: "rgba(226,134,14)"}}>
-                            <Select
-                            options={aquaticCreatures}
-                                required /> 
+                            <Select 
+                                options={aquaticCreatures} 
+                                value={select}
+                                onChange={handleChange}
+                                required id='selectid' /> 
                            
                         </div><br/>
                              
                         <div className="col-sm-5" >
-                             <input className="form-control" placeholder="Critic's Title" required /><br/>
+                             <input className="form-control" onChange={handleTitle} required placeholder="Critic's Title" id='titleid' />
+                            <br/>
                         </div>
                     
                          
                    </div>
                         <div className="col-sm-9 bg-black">
-                             <textarea className="form-control" id="contact-comments" name="comments" placeholder="write your critic :)" rows="7" culomn="10"></textarea> <br/>
+                             <textarea className="form-control" id="criticid" onChange={handleCriticBox} name="comments" placeholder="write your critic :)" rows="7" culomn="10"></textarea> <br/>
                         </div>
                         <div className="col-sm">
-                             <Rate/>
+                             <Rate rateCB={rateCallBack}/>
                          </div>
-                        <button type='submit' className="btn btn-shima"> Create</button>   
+                        <button type='submit' onClick={handleCritic} className="btn btn-shima"  > create </button> 
                 </div>
                 
             </center>

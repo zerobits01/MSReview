@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { Container, Radio, Rating } from "./RatingStyles";
-const Rate = () => {
+const Rate = (props) => {
 const [rate, setRate] = useState(0);
 return (
 	<Container>
@@ -14,7 +14,7 @@ return (
 			value={givenRating}
 			onClick={() => {
 				setRate(givenRating);
-				alert(`Are you sure you want to give ${givenRating} stars ?`);
+				props.rateCB(givenRating);	
 			}}
 			/>
 			<Rating>
