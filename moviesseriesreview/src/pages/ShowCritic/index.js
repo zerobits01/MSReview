@@ -35,8 +35,8 @@ const ShowCritic = () => {
             color: "burlywood"
         }}>
 
-            <div className="row">
-                <div className="col-sm-9 justify-content-center">
+            <div className="row bg-div">
+                <div className="col-sm-9 justify-content-center bg-div">
                     <br />
                     <br />
 
@@ -44,7 +44,7 @@ const ShowCritic = () => {
                         Title: {state.movie.title}
                     </h1>
                     <br />
-                    <div className="row">
+                    <div className="row bg-div">
                         <div className="col-sm-3 justify-content-center">
                             <center>
                                 <Image src={URLS.media_url + state.movie.imagesrc} alt="Random Name" height="300rem" width="300rem" />
@@ -77,7 +77,7 @@ const ShowCritic = () => {
                         user {state.user.name} says:<br />
                         {state.critic.text}
                     </h4>
-                    {JSON.stringify(state)}
+                    {/* {JSON.stringify(state)} */}
                 </div>
 
                 <div className="side-nav">

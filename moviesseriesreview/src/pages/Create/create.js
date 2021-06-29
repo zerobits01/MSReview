@@ -1,23 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AlignTop } from 'react-bootstrap-icons';
 import Select from 'react-select';
 import Rate from '../../components/rating/Rating';
-import './create.css'
+import { URLS } from '../../global/global-vars';
+import { Redirect } from 'react-router-dom';
+import { useAuthContext } from '../../context/auth/authContext';
+import './create.css';
 
-const aquaticCreatures = [
-    { label: 'Us', value: 'Us' },
-    { label: 'Dolphin', value: 'Dolphin' },
-    { label: 'Legacies', value: 'legacies' },
-    { label: 'Octopus', value: 'Octopus' },
-    { label: 'Crab', value: 'Crab' },
-    { label: 'Lobster', value: 'Lobster' },
-];
+const axios = require("axios");
+
 
 
 const Create = () => {
 
-    const [state, setState] = useState({ select: null, title: '', critic: '', rate: 0 });
+    const [authState, authDisptacher] = useAuthContext();
+    if(!authState.isAuthenticated){
+        return <Redirect to="/signin" />;
+    }
+    const [state, setState] = useState({
+        select: null,
+        critic: '', rate: 0,
+        aquaticCreatures: [
+            // { label: 'Us', value: 'Us' },
+        ]
+    });
     const { select } = state;
+    useEffect(() => {
+
+
+        axios.get(URLS.movie_url)
+            .then((response) => {
+                for (let movie of response.data) {
+                    console.log({ label: movie.title, value: movie.id })
+                    state.aquaticCreatures.push({ label: movie.title, value: movie.id })
+                }
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }, []);
+
 
     const rateCallBack = (rate_temp) => {
         setState(prevState => {
@@ -26,11 +49,37 @@ const Create = () => {
     }
 
     const handleCritic = () => {
-        if (state.title.length == 0 || state.select == null || state.critic.length == 0 || state.rate === 0) {
+        if (state.select == null || state.critic.length == 0 || state.rate === 0) {
             alert("please fill out all fields")
         } else {
 
+            let config = {
+                headers: {
+                    'Authorization': "Token " + authState.user.token,
+                    'Content-Type': "application/json"
+                }
+            }
 
+            let critic = {
+                movie: state.select.value,
+                text: state.critic,
+                rate: state.rate
+            };
+            console.log("#############");
+            console.log(config);
+            console.log(critic);
+
+            axios.post(URLS.critic_url, critic, config)
+                .then((response) => {
+                    console.log(response);
+                    document.getElementById('criticid').value = '';
+                    alert("we received your critic");
+                    return <Redirect to="/home" />;
+
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
 
 
             console.log(state)
@@ -38,13 +87,6 @@ const Create = () => {
 
     }
 
-
-    const handleTitle = (event) => {
-        setState(prevState => {
-            return { ...prevState, title: event.target.value }
-        });
-
-    };
 
 
     const handleCriticBox = event => {
@@ -69,24 +111,19 @@ const Create = () => {
                 <div className="justify-content-center">
 
                     <div className=' col-md-12 ' >
-
+                        <br />
 
                         <div className="col-sm-6 bg-black" style={{ color: "rgba(226,134,14)", width: "100%" }}>
                             <Select
-                                options={aquaticCreatures}
+                                options={state.aquaticCreatures}
                                 value={select}
                                 onChange={handleChange}
                                 required id='selectid'
                             />
 
                         </div>
-                        <br />
 
-                        <div className="col-sm-5" >
-                            <input className="form-control" onChange={handleTitle} required placeholder="Critic's Title" id='titleid' />
-                        </div>
                         <br />
-
 
                     </div>
                     <div className="col-sm-9 bg-black">

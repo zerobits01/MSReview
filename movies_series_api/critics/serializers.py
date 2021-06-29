@@ -14,6 +14,7 @@ class CriticSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
+        print(user)
         critic = models.Critic.objects.create(
             user=user,
             movie=validated_data['movie'],
