@@ -13,17 +13,16 @@ import { useAuthContext } from '../../context/auth/authContext';
 
 const axios = require("axios");
 
-const Profile = () => {
+const ShowProfile = () => {
     const [state, dispatchState] = useState({ isData: false });
     const [authState, authDisptacher] = useAuthContext();
-    // const { email_param } = useParams();
+    const { email_param } = useParams();
 
     const requestOnLoad = () => {
         if (authState.isAuthenticated) {
-            let email = authState.user.username;
-            // let email = email_param ? email_param : authState.user.username;
+            // let email = email_param;
             // console.log(URLS.user_email_url + authState.user.username)
-            axios.get(URLS.user_email_url + email)
+            axios.get(URLS.user_email_url + email_param)
                 .then((response) => {
                     console.log(response.data);
                     dispatchState({ ...response.data, isData: true });
@@ -39,10 +38,8 @@ const Profile = () => {
     }
     console.log(authState);
     useEffect(() => {
-        // console.log(email_param);
         requestOnLoad()
     }, []);
-
 
     if (!authState.isAuthenticated) {
         return <Redirect to="/signin" />
@@ -52,7 +49,6 @@ const Profile = () => {
         return <NotFound />;
     }
     
-
     return (
         <div className="bg-div" style={{
             color: "burlywood"
@@ -88,5 +84,5 @@ const Profile = () => {
 }
 
 
-export default Profile;
+export default ShowProfile;
 

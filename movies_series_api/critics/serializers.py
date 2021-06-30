@@ -41,7 +41,7 @@ class CommentSerializer(serializers.ModelSerializer):
             user = request.user
         comment = models.Comment.objects.create(
             user=user,
-            movie=validated_data['movie'],
+            critic=validated_data["critic"],
             text=validated_data['text'],
             rate=validated_data['rate']
         )

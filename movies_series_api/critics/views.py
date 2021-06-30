@@ -5,6 +5,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
 from critics import models
 from critics import serializers
+from .filters import CommentFilter
 
 # Create your views here.
 
@@ -85,6 +86,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     
     # first check authentication
     authentication_classes = (TokenAuthentication,)
+
+    filterset_class = CommentFilter
 
     http_method_names = ['get', 'post']
 

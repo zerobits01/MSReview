@@ -6,14 +6,31 @@ import { URLS } from '../../global/global-vars';
 import NotFound from '../notfound/notfound';
 import { Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Rating from '../../components/rating/Rating';
+import { useAuthContext } from '../../context/auth/authContext';
 
 const axios = require("axios");
 
 const ShowCritic = () => {
-    const [state, dispatchState] = useState({ isData: false });
+    const [state, dispatchState] = useState({ isData: false, rate: 0 });
     const { id } = useParams();
+    const [authState, authDisptacher] = useAuthContext();
+
+    const rateCallBack = (rate_temp) => {
+        dispatchState(prevState => {
+            return { ...prevState, rate: rate_temp };
+        });
+    }
+
 
     useEffect(() => {
+        axios.get(URLS.comment_of_critics_url + id)
+        .then(response => {
+            console.log(response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        });
         axios.get(URLS.critic_url + id)
             .then((response) => {
                 console.log(response.data);
@@ -30,6 +47,40 @@ const ShowCritic = () => {
         return <NotFound />;
     }
 
+    // handling rating state
+    // should have credential
+
+    const commentButton = (event) => {
+        event.preventDefault();
+
+        if(state.rate !== 0 && document.getElementById('comment-text').value.length != 0){
+            let config = {
+                headers: {
+                    'Authorization': "Token " + authState.user.token,
+                    'Content-Type': "application/json"
+                }
+            }
+
+            let comment = {
+                'critic': id,
+                'text': document.getElementById('comment-text').value,
+                'rate': state.rate
+            }
+            axios.post(URLS.comment_url, comment, config)
+                .then((response) => {
+                    console.log(response);
+                    document.getElementById('comment-text').value = '';
+                    alert("we received your comment");
+    
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+    
+        }
+    }
+
+
     return (
         <div className="bg-div" style={{
             color: "burlywood"
@@ -40,12 +91,21 @@ const ShowCritic = () => {
                     <br />
                     <br />
 
-                    <h1>
-                        Title: {state.movie.title}
-                    </h1>
+                    <div className="row">
+
+                        <div className="col-sm-1"></div>
+                        <div className="col-sm-11">
+                            <h1>
+                                Title: {state.movie.title}
+                            </h1>
+
+                        </div>
+                    </div>
                     <br />
                     <div className="row bg-div">
-                        <div className="col-sm-3 justify-content-center">
+                        <div className="col-sm-3" style={{
+                            paddingLeft: "3rem"
+                        }}>
                             <center>
                                 <Image src={URLS.media_url + state.movie.imagesrc} alt="Random Name" height="300rem" width="300rem" />
                             </center>
@@ -59,9 +119,9 @@ const ShowCritic = () => {
                             <br />
                             <br />
                             <br />
-                            {// add rate here
-                                state.critic.rate
-                            }
+                            <h2>Rating:</h2>
+                            <Rating read_only={true} givenRating={state.critic.rate} />
+
                         </div>
 
                     </div>
@@ -77,22 +137,53 @@ const ShowCritic = () => {
                         user {state.user.name} says:<br />
                         {state.critic.text}
                     </h4>
-                    {/* {JSON.stringify(state)} */}
-                </div>
+                    {/* {JSON.stringify(state)} */
+                        authState.isAuthenticated
+                            ? < div> <br />
+                                <br />
+                                <br />
+                                <div className="container-fluid bg-div">
+                                    <h2 className="text-center">Comment on this rate</h2>
+                                    <div className="row justify-content-center">
 
-                <div className="side-nav">
-                    <Link to={"/showprofile/" + state.user.email}>
-                        <Image src={URLS.media_url + state.user.profile} alt="Random Name" roundedCircle height="300rem" width="300rem" />
-                        <br />
-                        <br />
-                        <h2>
-                            Username: &nbsp; {state.user.email}
-                        </h2>
+                                        <div className="col-sm-7">
 
-                    </Link>
+                                            <textarea className="form-control" id="comment-text" name="comments" placeholder="Comment" rows="5"></textarea>
+                                            <div className="row">
+                                                <div className="col-sm-6">
+                                                    <br />
+                                                    <Rating rateCB={rateCallBack}/>
+                                                </div>
+                                                <div className="row col-sm-6 form-group">
+
+                                                    <button className="btn btn-block btn-lg btn-burly pull-right" type="submit"
+                                                        onClick={commentButton}>Send Comment</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            : <div></div>
+
+                    }
+
+                    <div className="side-nav">
+                        <Link to={"/showprofile/" + state.user.email}>
+                            <Image src={URLS.media_url + state.user.profile} alt="Random Name" roundedCircle height="300rem" width="300rem" />
+                            <br />
+                            <br />
+                            <h2>
+                                Username: &nbsp; {state.user.email}
+                            </h2>
+
+                        </Link>
+                    </div>
                 </div>
             </div>
-
         </div>
     );
 }

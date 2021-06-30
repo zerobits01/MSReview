@@ -11,6 +11,7 @@ import Signup from '../pages/Signup/Signup';
 import Home from '../pages/Home/index';
 import Critics from '../pages/Critics/index';
 import Profile from '../pages/profile/index';
+import ShowProfile from '../pages/showprofile/show-profile';
 import ShowMovie from '../pages/ShowMovie/index';
 import ShowCritic from '../pages/ShowCritic/index';
 import Create from '../pages/Create/create';
@@ -49,7 +50,10 @@ class MyRouter extends React.Component {
                     path="/aboutus"
                     component={AboutUs}
                 />
-
+                <Route
+                    path="/showprofile/:email_param"
+                    component={ShowProfile}
+                />
                 <Route
                     path="/signin"
                     component={Login}
@@ -69,10 +73,6 @@ class MyRouter extends React.Component {
                 <Route
                     path="/critic/:id"
                     component={ShowCritic}
-                />
-                <Route
-                    path="/showprofile/:email_param"
-                    component={Profile}
                 />
                 <Route
                     path="/new-critic"

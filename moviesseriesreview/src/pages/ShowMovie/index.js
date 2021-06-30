@@ -7,6 +7,7 @@ import { URLS } from '../../global/global-vars';
 import NotFound from '../notfound/notfound';
 import '../../css/show-movie.css';
 import CriticCarousel from '../../components/carousel/critic_carousel';
+import Rating from '../../components/rating/Rating';
 
 const axios = require("axios");
 
@@ -36,33 +37,47 @@ const ShowMovie = () => {
             color: "burlywood"
         }}>
 
-            <div className="row">
+            <div className="row bg-div">
                 <div className="col-sm-9">
+                    <br />
+
+                    <h2>
+                        summary:
+                    </h2>
+
+                    <br />
+
+                    <h4 className="float-left">
+                        {state.movie.description}
+                    </h4>
+
                     <CriticCarousel data={{ title: "critics", items: state.critics }} />
                 </div>
+
+                <br />
+                <br />
+
                 <div className="side-nav">
                     <Image src={URLS.media_url + state.movie.image.image} alt="Random Name" roundedCircle height="300rem" width="300rem" />
                     <br />
                     <br />
+                    <br />
+                    <br />
+
                     <h2>
                         Title: &nbsp; {state.movie.title}
                     </h2>
+                    <br />
+                    <br />
 
-                    <div className="row justify-content-center">
+                    <div className="justify-content-center">
                         <h3>
-                            Rate:
+                            Average Rate:
                         </h3>
-                        <h3>
-                            &nbsp; Rate place
-                        </h3>
+
+                        <Rating read_only={true} givenRating={state.movie.avgrate.rate__avg} />
 
                     </div>
-                    <h3>
-                        summary:
-                        </h3>
-                    <h5 className="float-left">
-                        {state.movie.description}
-                    </h5>
 
                 </div>
             </div>

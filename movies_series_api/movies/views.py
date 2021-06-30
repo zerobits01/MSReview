@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from movies import models
 from movies import serializers
+from django.db.models import Avg
 # Create your views here.
 
 
@@ -32,6 +33,8 @@ class RetrieveMovies(viewsets.ModelViewSet):
         movie = self.queryset.get(pk=pk)
         critics = []
         # retrieving data from critic needs the _state so before deleting the data we have to retrieve what we want
+        avg_rate = movie.critic_set.all().aggregate(Avg('rate'))
+        print(20*"#", '\n', avg_rate)
         critics_temp = movie.critic_set.all()
         for critic in critics_temp:
             critics.append(
@@ -49,4 +52,5 @@ class RetrieveMovies(viewsets.ModelViewSet):
         movie_dict = movie.__dict__
         movie_dict.pop('_state')
         movie_dict['image'] = image
+        movie_dict['avgrate'] = avg_rate
         return Response({'movie': movie_dict, 'critics': critics})
