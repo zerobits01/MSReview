@@ -8,6 +8,7 @@ import { Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Rating from '../../components/rating/Rating';
 import { useAuthContext } from '../../context/auth/authContext';
+import TableExample from '../../components/table-view/table-view';
 
 const axios = require("axios");
 
@@ -25,16 +26,24 @@ const ShowCritic = () => {
 
     useEffect(() => {
         axios.get(URLS.comment_of_critics_url + id)
-        .then(response => {
-            console.log(response.data)
-        })
-        .catch(error => {
-            console.log(error)
-        });
+            .then(response => {
+                console.log(response.data)
+                dispatchState(prevState => {
+                    return {
+                        ...prevState,
+                        comments_table: response.data.comments
+                    }
+                });
+            })
+            .catch(error => {
+                console.log(error)
+            });
         axios.get(URLS.critic_url + id)
             .then((response) => {
                 console.log(response.data);
-                dispatchState({ ...response.data, isData: true });
+                dispatchState(prevState => {
+                    return { ...prevState, ...response.data, isData: true }
+                });
             })
             .catch((error) => {
                 console.log(error);
@@ -47,13 +56,15 @@ const ShowCritic = () => {
         return <NotFound />;
     }
 
+
+    console.log(state)
     // handling rating state
     // should have credential
 
     const commentButton = (event) => {
         event.preventDefault();
 
-        if(state.rate !== 0 && document.getElementById('comment-text').value.length != 0){
+        if (state.rate !== 0 && document.getElementById('comment-text').value.length != 0) {
             let config = {
                 headers: {
                     'Authorization': "Token " + authState.user.token,
@@ -71,12 +82,12 @@ const ShowCritic = () => {
                     console.log(response);
                     document.getElementById('comment-text').value = '';
                     alert("we received your comment");
-    
+
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-    
+
         }
     }
 
@@ -126,7 +137,6 @@ const ShowCritic = () => {
 
                     </div>
                     <br />
-
                     <h4>
                         <hr style={{
                             backgroundColor: 'burlywood',
@@ -137,6 +147,11 @@ const ShowCritic = () => {
                         user {state.user.name} says:<br />
                         {state.critic.text}
                     </h4>
+                    <div>
+                        <TableExample table_data={state.comments_table} />
+                        <br />
+                        <br />
+                    </div>
                     {/* {JSON.stringify(state)} */
                         authState.isAuthenticated
                             ? < div> <br />
@@ -152,7 +167,7 @@ const ShowCritic = () => {
                                             <div className="row">
                                                 <div className="col-sm-6">
                                                     <br />
-                                                    <Rating rateCB={rateCallBack}/>
+                                                    <Rating rateCB={rateCallBack} />
                                                 </div>
                                                 <div className="row col-sm-6 form-group">
 
@@ -165,6 +180,9 @@ const ShowCritic = () => {
 
                                     </div>
                                 </div>
+                                <br />
+                                <br />
+                                <br />
                             </div>
 
                             : <div></div>

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Td } from 'react-super-responsive-table';
-
+import {URLS} from '../../../global/global-vars';
 
 const TableViewItem = (props) => {
     // props.item_item_data
     return (
-        <div className="row">
+        <div className="row" style={{
+            paddingLeft: "1.5rem"
+        }}>
             <img
-                src={props.item_data.image}
-                alt={props.item_data.alt ? props.item_data.alt : 'This is the alt'}
+                src={URLS.media_url + props.item_data.profile}
+                alt={props.item_data.alt ? props.item_data.alt : 'alt'}
                 className="rounded img-thumbnail"
                 style={{
                     width: "5rem",
@@ -19,9 +20,11 @@ const TableViewItem = (props) => {
 
                 }}
             />
-
+            <div style={{
+                width: "1rem"
+            }}></div>
             <div>
-                <b className="justify-content-center">Title: {props.item_data.title ? props.item_data.title : 'This is the title'}</b>
+                <b className="justify-content-center">username: {props.item_data.user_name ? props.item_data.user_name : 'username'}</b>
 
                 <br />
 
@@ -30,7 +33,7 @@ const TableViewItem = (props) => {
                     overflow: "hidden",
                     whiteSpace: "nowrap",
                 }}>
-                    {props.item_data.description ? props.item_data.description : 'This is the description'}
+                    {props.item_data.text ? props.item_data.text : 'This is the text'}
                 </p>
 
             </div>

@@ -6,6 +6,10 @@ from rest_framework import filters
 from critics import models
 from critics import serializers
 from .filters import CommentFilter
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
+from django.http import JsonResponse
+
 
 # Create your views here.
 
@@ -95,3 +99,20 @@ class CommentViewSet(viewsets.ModelViewSet):
         context = super(CommentViewSet, self).get_serializer_context()
         context.update({"request": self.request})
         return context
+
+
+@api_view(('GET',))
+# @renderer_classes((TemplateHTMLRenderer, JSONRenderer))
+def filter_comments_critic_base(request, critic):
+        queryset = models.Comment.objects.filter(critic=critic)
+        data = {}
+        data["comments"] = []
+        for comment in queryset:
+            data["comments"].append({
+                "user_name": comment.user.email,
+                "profile": str(comment.user.image.image),
+                "text": comment.text,
+                "rate": comment.rate
+            })
+        return Response(data)
+        

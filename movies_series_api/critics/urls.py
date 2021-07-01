@@ -9,6 +9,6 @@ router.register('comment', views.CommentViewSet, basename='comment')
 
 
 urlpatterns = [
-
+    path('comment/critic/<int:critic>', views.filter_comments_critic_base),
     path('', include(router.urls))
 ]

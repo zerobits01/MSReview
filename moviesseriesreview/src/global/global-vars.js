@@ -12,7 +12,7 @@ const URLS = {
     user_email_url              : BaseAddr + '/user/email/',
     comment_url                 : BaseAddr + '/comment/', // for commenting on critics
     image_url                   : BaseAddr + '/image/', // to create image for static serving we use /media/image/
-    comment_of_critics_url      : BaseAddr + '/comment/?critic=', // for commenting on critics
+    comment_of_critics_url      : BaseAddr + '/comment/critic/', // for commenting on critics
     
 }
 
