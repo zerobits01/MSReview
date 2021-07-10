@@ -23,21 +23,24 @@ const ShowCritic = () => {
         });
     }
 
+    const updateComments = () => {
+        axios.get(URLS.comment_of_critics_url + id)
+        .then(response => {
+            console.log(response.data)
+            dispatchState(prevState => {
+                return {
+                    ...prevState,
+                    comments_table: response.data.comments
+                }
+            });
+        })
+        .catch(error => {
+            console.log(error)
+        });
+    }
 
     useEffect(() => {
-        axios.get(URLS.comment_of_critics_url + id)
-            .then(response => {
-                console.log(response.data)
-                dispatchState(prevState => {
-                    return {
-                        ...prevState,
-                        comments_table: response.data.comments
-                    }
-                });
-            })
-            .catch(error => {
-                console.log(error)
-            });
+        updateComments();
         axios.get(URLS.critic_url + id)
             .then((response) => {
                 console.log(response.data);
@@ -82,6 +85,7 @@ const ShowCritic = () => {
                     console.log(response);
                     document.getElementById('comment-text').value = '';
                     alert("we received your comment");
+                    updateComments();
 
                 })
                 .catch((error) => {
@@ -106,23 +110,27 @@ const ShowCritic = () => {
 
                         <div className="col-sm-1"></div>
                         <div className="col-sm-11">
-                            <h1>
+                            <h1 style={{
+                                textOverflow: "ellipsis",
+                                overflow: "hidden"
+                            }}>
                                 Title: {state.movie.title}
                             </h1>
 
                         </div>
                     </div>
                     <br />
-                    <div className="row bg-div">
-                        <div className="col-sm-3" style={{
+                    <div className="row no-gutter container-fluid">
+                        <div className="col-lg-3 order-lg-1" style={{
                             paddingLeft: "3rem"
                         }}>
                             <center>
                                 <Image src={URLS.media_url + state.movie.imagesrc} alt="Random Name" height="300rem" width="300rem" />
                             </center>
                         </div>
-                        <div className="col-sm-9" style={{
-                            paddingRight: "10rem",
+                        <div className="col-lg-9 order-lg-2" style={{
+                            paddingRight: "5rem",
+                            paddingLeft: "5rem",
                             fontSize: "1.3rem"
                         }}>
                             {state.movie.description}
@@ -189,14 +197,19 @@ const ShowCritic = () => {
 
                     }
 
-                    <div className="side-nav">
+                    <div className="side-nav justify-content-center">
                         <Link to={"/showprofile/" + state.user.email}>
-                            <Image src={URLS.media_url + state.user.profile} alt="Random Name" roundedCircle height="300rem" width="300rem" />
+                            <Image src={URLS.media_url + state.user.profile} alt="Random Name" roundedCircle style={{
+                                height: "30%",
+                                width: "45%"
+                            }} />
                             <br />
                             <br />
+                            <div className="col-sm-12">
                             <h2>
                                 Username: &nbsp; {state.user.email}
                             </h2>
+                            </div>
 
                         </Link>
                     </div>

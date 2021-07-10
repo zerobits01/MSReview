@@ -5,7 +5,7 @@ import './member.css'
 
 const CardMember = (props) => {
     return (
-        <div className="jumbotron col-sm-2 justify-content-center card-member">
+        <div className="jumbotron col-sm-3 justify-content-center card-member">
             <center>
 
                 <div className="justify-content-center" >

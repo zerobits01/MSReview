@@ -1,0 +1,211 @@
+# define the local variables here
+variables:
+  UI_DIR_NAME: moviesseriesreview
+  UI_DEPLOY_PATH: /opt/
+  TST_SERVER: 192.168.5.195
+  TST_USERNAME: api
+  TST_PASSWD: api
+  OPTIONHK: StrictHostKeyChecking=no
+  OPTIONUKHF: UserKnownHostsFile=/dev/null
+  BASE_SCP_TST_SRV: sshpass -p $TST_PASSWD scp -o $OPTIONHK -o  $OPTIONUKHF
+  BASE_SSH_TST_SRV: sshpass -p $TST_PASSWD ssh -o $OPTIONHK -o  $OPTIONUKHF $TST_USERNAME@$TST_SERVER
+  PYTHON_VIRTUAL_ENV: .controller_api_env
+  CONTROLLER_DIR_NAME: movies_series_api
+  API_DEPLOY_HOME_PATH: /home/api/
+  OPTIONHK: StrictHostKeyChecking=no
+  OPTIONUKHF: UserKnownHostsFile=/dev/null
+
+
+# caching dependencies
+cache: &global_cache
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - public/
+    - vendor/
+    - ~/.cache/pip/
+
+
+
+# stages to pass in CI/CD
+stages:
+  - test-ui
+  - test
+  - build-ui
+  - build
+  - deploy
+
+# running test on CICD Runner machine
+test-ui-test:
+  stage: test-ui
+  cache: 
+    key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+    paths:
+      - node_modules/
+  before_script:
+    - cd $UI_DIR_NAME
+    - npm install
+  script:
+    - echo a > npm run test
+
+
+test-django-test:
+  stage: test
+  before_script:
+    - cd $CONTROLLER_DIR_NAME
+    - pwd
+    - pip3 install --upgrade pip
+    - pip3 install --upgrade virtualenv
+    - virtualenv ../$PYTHON_VIRTUAL_ENV
+    - source ../$PYTHON_VIRTUAL_ENV/bin/activate
+    - pip install -r requirements.txt
+  script:
+    - pwd
+    - python3 manage.py test
+
+
+
+# manually deploy to the deployment server
+build-project-ui:
+  stage: build-ui
+  cache: 
+    key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    # creating the ui tar file and copying it to server
+    - cd $UI_DIR_NAME
+    - npm install
+    - npm run build
+    - printf "commit_sha=$CI_COMMIT_SHA\n" > ../ui.version
+    - printf "job_id=$CI_JOB_ID\n" >> ../ui.version
+    - rm -f ../ui*.tar
+    - tar -cf ../ui.tar ./build/* ./install/*
+  artifacts:
+    paths:
+      - build
+
+
+build-project:
+  stage: build
+  script:
+    - cd $CONTROLLER_DIR_NAME
+    # writing the version for installer
+    - printf "commit_sha=$CI_COMMIT_SHA\n" > ../controller-api.version
+    - printf "job_id=$CI_JOB_ID\n" >> ../controller-api.version
+
+    # creating the controller api tar file and copying it to server
+    - rm -f ../$CONTROLLER_DIR_NAME-api.tar
+    - tar -cf ../$CONTROLLER_DIR_NAME.tar ../$CONTROLLER_DIR_NAME/
+
+
+# manually deploy to the deployment server
+deploy-to-tst-server:
+  stage: deploy
+  when: manual
+  script:
+    # installing requirements
+    - pwd
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S apt update" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "dpkg -s "nginx" || echo  %s | sudo -S apt-get install -y nginx" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "dpkg -s "openssl" || echo  %s | sudo -S apt-get install -y openssl" $TST_PASSWD)
+
+
+    - $BASE_SCP_TST_SRV ../ui.tar $TST_USERNAME@$TST_SERVER:/tmp
+    - $BASE_SSH_TST_SRV $(printf "echo %s | sudo -S rm -rf %sbuild %sinstall %s%s" $TST_PASSWD $UI_DEPLOY_PATH $UI_DEPLOY_PATH $UI_DIR_NAME)
+    - $BASE_SSH_TST_SRV $(printf "echo %s | sudo -S tar -xf /tmp/%s.tar -C %s" $TST_PASSWD $UI_DIR_NAME $UI_DEPLOY_PATH)
+    - $BASE_SSH_TST_SRV $(printf "cd /opt/; echo  %s | sudo -S rm -rf %s" $TST_PASSWD $UI_DIR_NAME)
+    - $BASE_SSH_TST_SRV $(printf "cd /opt/; echo  %s | sudo -S mkdir ui; echo  %s | sudo -S mv -f build ./%s/" $TST_PASSWD $TST_PASSWD $UI_DIR_NAME)
+
+    # configuring nginx
+    - $BASE_SSH_TST_SRV $(printf "echo %s | sudo -S rm -f /etc/nginx/sites-available/default" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "echo %s | sudo -S rm -f /etc/nginx/sites-enabled/default" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "echo %s | sudo -S cp -f /opt/install/afta-config.conf /etc/nginx/sites-available/" $TST_PASSWD )
+    - $BASE_SSH_TST_SRV $(printf "echo %s | sudo -S ln -sf /etc/nginx/sites-available/afta-config.conf /etc/nginx/sites-enabled/" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "[ -d /etc/nginx/snippets/ ] && echo %s | sudo -S rm -rf /etc/nginx/snippets/" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "echo %s | sudo -S mkdir /etc/nginx/snippets/" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "echo %s | sudo -S cp -f /opt/install/self-signed.conf /etc/nginx/snippets/" $TST_PASSWD )
+    - $BASE_SSH_TST_SRV $(printf "echo %s | sudo -S cp -f /opt/install/ssl-params.conf /etc/nginx/snippets/" $TST_PASSWD )
+    - $BASE_SSH_TST_SRV $(printf "[ -f /etc/ssl/certs/nginx-selfsigned.crt ] || echo %s | sudo -S openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj \"/C=IR/ST=Isfahan/L=Isfahan /O=/OU=/CN=/emailAddress=\"" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "[ -f /etc/ssl/certs/nginx-selfsigned.crt ] && echo %s | sudo -S chmod 644 /etc/ssl/private/nginx-selfsigned.key" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "[ -f /etc/ssl/certs/nginx-selfsigned.crt ] && echo %s | sudo -S chmod 644 /etc/ssl/certs/nginx-selfsigned.crt" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "[ -f /etc/ssl/certs/dhparam.pem ] || echo %s | sudo -S openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "[ -f /etc/ssl/certs/dhparam.pem ] && echo %s | sudo -S chmod 644 /etc/ssl/certs/dhparam.pem" $TST_PASSWD)
+    - $BASE_SSH_TST_SRV $(printf "echo %s | sudo -S systemctl restart nginx" $TST_PASSWD)
+
+
+
+deploy-to-api-server:
+  stage: deploy
+  when: manual
+  script:
+    # installing requirements
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S apt update" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "dpkg -s "git" || echo  %s | sudo -S apt-get install -y git" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "dpkg -s "python3.8" || echo  %s | sudo -S apt-get install -y python3 libpq-dev" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "dpkg -s "python3.8-venv" || echo  %s | sudo -S apt-get install -y python3.8-venv" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "dpkg -s "python3-pip" || echo  %s | sudo -S apt-get install -y python3-pip" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "dpkg -s "nginx" || echo  %s | sudo -S apt-get install -y nginx" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "dpkg -s "openssl" || echo  %s | sudo -S apt-get install -y openssl" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "dpkg -s "postgresql" || echo  %s | sudo -S apt-get install -y postgresql postgresql-contrib" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "dpkg -s "redis-server" || echo  %s | sudo -S apt-get install -y redis-server" $API_TEST_SERVER_PASSWORD)
+    # creating database and change password
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S service postgresql restart" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S -u postgres psql -c \"ALTER USER postgres WITH PASSWORD \'postgres\';\"" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S -u postgres psql -lqt | grep controller || echo %s | sudo -S -u postgres createdb controller" $API_TEST_SERVER_PASSWORD $API_TEST_SERVER_PASSWORD)
+    
+    # downloading source from git
+    # - $BASE_SSH_TST_SRV [ -x .controller_api_env ] || python3.8 -m venv .controller_api_env
+    # - $BASE_SSH_TST_SRV [ -x git-pp.pem ] && rm git-pp.pem
+    # - $BASE_SSH_TST_SRV openssl s_client -connect git.payampardaz.com:443 -showcerts </dev/null | openssl x509 -text --outform PEM > git-pp.pem
+    # - $BASE_SSH_TST_SRV git config --global http."https://git.payampardaz.com/".sslCAInfo $PWD/git-pp.pem
+    # - $BASE_SSH_TST_SRV [ -x controller-api ] && rm -rf controller-api
+    # - $BASE_SSH_TST_SRV git clone https://git.payampardaz.com/narin-group/sd-wan-controller/controller-api.git
+
+    # copying the code with SCP instead downloading from Git    
+    # creating the virualenv and copying
+    - virtualenv $API_DEPLOY_HOME_PATH$PYTHON_VIRTUAL_ENV
+    - source $API_DEPLOY_HOME_PATH$PYTHON_VIRTUAL_ENV/bin/activate
+    - pip install -r requirements.txt
+    - rm -f ../$PYTHON_VIRTUAL_ENV.tar
+    - tar -cf ../$PYTHON_VIRTUAL_ENV.tar $API_DEPLOY_HOME_PATH$PYTHON_VIRTUAL_ENV
+    - $BASE_SCP_TST_SRV ../$PYTHON_VIRTUAL_ENV.tar $API_TEST_SERVER_USERNAME@$API_TEST_SERVER_ADDRESS:~
+    - $BASE_SSH_TST_SRV $(printf "rm -rf %s%s" $API_DEPLOY_HOME_PATH $PYTHON_VIRTUAL_ENV)
+    - $BASE_SSH_TST_SRV $(printf "mkdir %s%s" $API_DEPLOY_HOME_PATH $PYTHON_VIRTUAL_ENV)
+    - $BASE_SSH_TST_SRV $(printf "tar -xf %s%s.tar -C /" $API_DEPLOY_HOME_PATH $PYTHON_VIRTUAL_ENV)
+
+    # creating the controller api tar file and copying it to server
+    - rm -f ../controller-api*.tar
+    - tar -cf ../$CONTROLLER_DIR_NAME.tar ../$CONTROLLER_DIR_NAME/
+    - $BASE_SCP_TST_SRV ../$CONTROLLER_DIR_NAME.tar $API_TEST_SERVER_USERNAME@$API_TEST_SERVER_ADDRESS:~
+    - $BASE_SSH_TST_SRV $(printf "rm -rf %s%s" $API_DEPLOY_HOME_PATH $CONTROLLER_DIR_NAME)
+    - $BASE_SSH_TST_SRV $(printf "mkdir %s" $CONTROLLER_DIR_NAME)
+    - $BASE_SSH_TST_SRV $(printf "tar -xf %s%s.tar -C %s" $API_DEPLOY_HOME_PATH $CONTROLLER_DIR_NAME $API_DEPLOY_HOME_PATH)
+
+    # changing the mode
+    - $BASE_SSH_TST_SRV $(printf "echo test > %s%s/controller/deploy_mode" $API_DEPLOY_HOME_PATH $CONTROLLER_DIR_NAME)
+    - $BASE_SSH_TST_SRV $(printf "%s%s/bin/python %s%s/manage.py migrate --settings controller.settings_api_test" $API_DEPLOY_HOME_PATH $PYTHON_VIRTUAL_ENV $API_DEPLOY_HOME_PATH $CONTROLLER_DIR_NAME)
+
+    # copying the service files, starting and enabling it
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S cp -f %s%s/install/services/movies_series_api.service /etc/systemd/system/" $API_TEST_SERVER_PASSWORD $API_DEPLOY_HOME_PATH $CONTROLLER_DIR_NAME)
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S systemctl daemon-reload" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S systemctl enable movies_series_api.service" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S systemctl restart movies_series_api.service" $API_TEST_SERVER_PASSWORD)
+
+    # configuring nginx
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S cp -f %s%s/install/configs/afta-config.conf /etc/nginx/sites-available/" $API_TEST_SERVER_PASSWORD $API_DEPLOY_HOME_PATH $CONTROLLER_DIR_NAME)
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S ln -sf /etc/nginx/sites-available/afta-config.conf /etc/nginx/sites-enabled/" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "[ -d /etc/nginx/snippets/ ] && echo %s | sudo -S rm -rf /etc/nginx/snippets/" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S mkdir /etc/nginx/snippets/" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S cp -f %s%s/install/configs/self-signed.conf /etc/nginx/snippets/" $API_TEST_SERVER_PASSWORD $API_DEPLOY_HOME_PATH $CONTROLLER_DIR_NAME)
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S cp -f %s%s/install/configs/ssl-params.conf /etc/nginx/snippets/" $API_TEST_SERVER_PASSWORD $API_DEPLOY_HOME_PATH $CONTROLLER_DIR_NAME)
+    # - $BASE_SSH_TST_SRV source $API_DEPLOY_HOME_PATH/$CONTROLLER_DIR_NAME/bin/activate && cd $API_DEPLOY_HOME_PATH/$CONTROLLER_DIR_NAME && pip install -r requirements.txt && deactivate
+    - $BASE_SSH_TST_SRV $(printf "[ -f /etc/ssl/certs/nginx-selfsigned.crt ] || echo  %s | sudo -S openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj \"/C=IR/ST=Isfahan/L=Isfahan /O=/OU=/CN=/emailAddress=\"" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "[ -f /etc/ssl/certs/nginx-selfsigned.crt ] && echo  %s | sudo -S chmod 644 /etc/ssl/private/nginx-selfsigned.key" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "[ -f /etc/ssl/certs/nginx-selfsigned.crt ] && echo  %s | sudo -S chmod 644 /etc/ssl/certs/nginx-selfsigned.crt" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "[ -f /etc/ssl/certs/dhparam.pem ] || echo  %s | sudo -S openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "[ -f /etc/ssl/certs/dhparam.pem ] && echo  %s | sudo -S chmod 644 /etc/ssl/certs/dhparam.pem" $API_TEST_SERVER_PASSWORD)
+    - $BASE_SSH_TST_SRV $(printf "echo  %s | sudo -S systemctl restart nginx" $API_TEST_SERVER_PASSWORD)
+
+

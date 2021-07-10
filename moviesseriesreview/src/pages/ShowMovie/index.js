@@ -58,7 +58,7 @@ const ShowMovie = () => {
                 <br />
 
                 <div className="side-nav">
-                    <Image src={URLS.media_url + state.movie.image.image} alt="Random Name" roundedCircle height="300rem" width="300rem" />
+                    <Image src={URLS.media_url + state.movie.image.image} alt="Random Name" roundedCircle height="30%" width="45%" />
                     <br />
                     <br />
                     <br />

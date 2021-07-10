@@ -65,7 +65,7 @@ const Signup = () => {
   const signupButton = (event) => {
     event.preventDefault();
 
-    let image = document.getElementById("profileImage").files[0]
+    let image = document.getElementById("profileImage").files ? document.getElementById("profileImage").files[0] : null;
     console.log(data.image);
 
     if (data.password !== data.password1) { // checks if password and confirm are the same or alert
@@ -108,7 +108,7 @@ const Signup = () => {
                 type: 'login',
                 isAuthenticated: true,
                 user: {
-                  username: data.username,
+                  username: data.email,
                   token: response.data.token
                 }
               });
@@ -154,8 +154,8 @@ const Signup = () => {
                 <input type="password" className="form-control" placeholder='password confirm' onChange={handlePassword1} required />
               </div>
               <div style={{ height: "4rem" }}>
-                <label for="files" className="btn btn-burly ">Select Image</label>
-                <input id="files" style={{ visibility: "hidden", height: 0, widows: 0 }} type="file" />
+                <label for="profileImage" className="btn btn-burly ">Select Image</label>
+                <input id="profileImage" style={{ visibility: "hidden", height: 0, widows: 0 }} type="file" />
               </div>
             </div>
             <button type="submit" className="btn btn-burly" onClick={signupButton}>Sign Up</button>

@@ -1,0 +1,22 @@
+version: "3.9"
+   
+services:
+  api:
+    build: ./movies_series_api/
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./movies_series_api/:/code
+    ports:
+      - "8000:8000"
+  ui:
+    container_name: ui
+    build:
+      context: ./moviesseriesreview/
+      dockerfile: Dockerfile
+    volumes:
+      - './moviesseriesreview/:/app'
+      - '/app/node_modules'
+    ports:
+      - 80:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true

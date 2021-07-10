@@ -1,0 +1,12 @@
+[Unit]
+Description=Controller API Service
+After=network.target
+
+[Service]
+User=api
+WorkingDirectory=/opt/movies_series_api
+ExecStart=/opt/.movies_series_api_env/bin/python manage.py runserver 127.0.0.1:8080 
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

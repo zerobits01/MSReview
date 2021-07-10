@@ -19,9 +19,11 @@ from .filters import UserFilter
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from django.http import JsonResponse
+from utils.models import Image
 
 ###########################################  VIEWS ############################################
 
+default_img = str(Image.objects.get(name="default_image").image)
 
 class Ping(APIView):
 
@@ -262,7 +264,7 @@ def filter_email_base(request, email):
         data["user"] = {
             "id": queryset.id,
             "username": queryset.email,
-            "profile": str(queryset.image.image) 
+            "profile": str(queryset.image.image) if queryset.image else default_img 
         }
 
         return JsonResponse(data)

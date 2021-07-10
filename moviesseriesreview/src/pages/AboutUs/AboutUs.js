@@ -105,7 +105,8 @@ const AboutUs = () => {
 
             <br />
             <br />
-            <div className="row justify-content-center bg-div">
+
+            <div className="row justify-content-center no-gutter bg-div">
 
                 {/* {data.map((item,index)=>{
                     return (
@@ -114,14 +115,14 @@ const AboutUs = () => {
 
                 })} */}
 
-                <CardMember firstname={data[0].firstname} lastname={data[0].lastname} bio={data[0].bio} imagesrc={data[0].imagesrc} />
+                    <CardMember firstname={data[0].firstname} lastname={data[0].lastname} bio={data[0].bio} imagesrc={data[0].imagesrc} />
+
                 <div className="col-sm-3"></div>
-                <CardMember firstname={data[1].firstname} lastname={data[1].lastname} bio={data[1].bio} imagesrc={data[1].imagesrc} />
+                    <CardMember firstname={data[1].firstname} lastname={data[1].lastname} bio={data[1].bio} imagesrc={data[1].imagesrc} />
 
 
 
             </div>
-
             <hr style={{
                 backgroundColor: 'burlywood',
                 height: 1
